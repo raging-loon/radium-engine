@@ -1,0 +1,6 @@
+Import("env")
+
+env.add_source_files(env, "*.cpp")
+
+SConscript("debug/SCsub")
+SConscript("config/SCsub")

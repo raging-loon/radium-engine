@@ -1,0 +1,11 @@
+CC=cl
+CFLAGS=/Wall
+
+all: crlftolf clean
+
+
+crlftolf: 
+	$(CC) /O2 crlftolf.c $(CFLAGS) /Fe"bin/crlftolf.exe"
+
+clean:
+	del *.obj
