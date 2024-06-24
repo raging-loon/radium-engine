@@ -1,0 +1,4 @@
+Import("env")
+
+if env["platform"] == "win32":
+	SConscript("win32/SCsub")

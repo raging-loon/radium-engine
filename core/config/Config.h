@@ -16,8 +16,7 @@ public:
 	
 	Variant& operator[](std::string k);
 
-	void insert(std::string k, Variant value);
-
+	/* read config */
 	bool loadConfig(const char* filename = nullptr);
 
 public:
@@ -38,8 +37,9 @@ public:
 
 private:
 	Config();
-	
+	/* parse the config */
 	bool readConfig(char* cfgBuf, size_t sz);
+	/* parse potential key-value pairs*/
 	bool parseLine(char* line);
 	std::unordered_map < std::string , Variant > m_kvcfgmap;
 };

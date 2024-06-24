@@ -60,6 +60,8 @@ if env["platform"] == "win32":
 	# use C++20 and disable exceptions
 	env.Append(CCFLAGS=["/std:c++20","/EHsc"])
 	# Add debug symbols and optimizaion
+	env.Append(LIBS = ["kernel32", "user32", "gdi32", "winspool", "comdlg32", "advapi32",
+					   "shell32", "ole32", "oleaut32", "uuid", "odbc32", "odbccp32"])
 	
 	if(env.is_debug):
 		env.Append(CCFLAGS=["/DEBUG","/Od"])
@@ -70,10 +72,11 @@ if env["platform"] == "win32":
 	if(env["opengl"]):
 		env.Append(CPPDEFINES=["GLEW_STATIC", "RAD_API_OPENGL"])
 		env.Append(LIBS = ["opengl32"])
+		env.Append(CPPPATH=['thirdparty/glew/include'])
+		env.source_files.append('thirdparty/glew/src/glew.c')
+
 
 	env.Append(CPPDEFINES=["RAD_PLATFORM_WIN32"])
-	env.Append(CPPPATH=['thirdparty/glew/include'])
-	env.source_files.append('thirdparty/glew/src/glew.c')
 
 # add current directory to includepath ~~~~~~~~~~~~v
 env.Append(CPPPATH=['thirdparty/spdlog/include', os.path.abspath('.').replace('\\','/')])
@@ -89,6 +92,9 @@ else:
 	env.Append(CPPDEFINES=["RAD_ENABLE_TESTS"])
 	SConscript("tests/unit/SCsub")
 
+SConscript("platform/SCsub")
+
+SConscript("drivers/SCsub")
 	
 target = env.Program(target='build/radium-engine', source=env.source_files)
 
