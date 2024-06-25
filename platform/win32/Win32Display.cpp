@@ -98,7 +98,7 @@ void Win32Display::hide()
 void Win32Display::processEvents()
 {
 	MSG msg;
-	while (PeekMessage(&msg, m_hwnd, 0, 0, 0) > 0)
+	while (PeekMessage(&msg, m_hwnd, 0, 0, PM_REMOVE))
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);

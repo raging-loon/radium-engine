@@ -1,6 +1,8 @@
 #include "oglBuffer.h"
 #include "graphics/IBuffer.h"
 #include "core/types.h"
+#include "core/debug/Log.h"
+
 #include <GL/glew.h>
 #include <cassert>
 using radium::oglBuffer;
@@ -30,7 +32,7 @@ void oglBuffer::bind()
 
 void oglBuffer::unbind()
 {
-	glBindBuffer(0, m_bufferID);
+	glBindBuffer(m_target, 0);
 }
 void oglBuffer::bindVAO()
 {

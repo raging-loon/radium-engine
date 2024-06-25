@@ -11,6 +11,8 @@
 
 int radium::oglRenderDriver::init(RenderDriverConfig& rdc)
 {
+	assert(rdc.windowHandle && rdc.hinstance);
+
 	PIXELFORMATDESCRIPTOR pfd =
 	{
 
@@ -86,7 +88,6 @@ int radium::oglRenderDriver::init(RenderDriverConfig& rdc)
 	// delete current context
 	wglMakeCurrent(nullptr, nullptr);
 	wglDeleteContext(tempCtx);
-	wglMakeCurrent(handleToDevCtx, rdc.handleGLCtx);
 
 
 	if (!rdc.handleGLCtx)
@@ -94,6 +95,8 @@ int radium::oglRenderDriver::init(RenderDriverConfig& rdc)
 		RAD_ENGINE_CRITICAL("[WGL]: Failed to create OpenGL Debug Context");
 		return -1;
 	}
+
+	wglMakeCurrent(handleToDevCtx, rdc.handleGLCtx);
 	RAD_ENGINE_INFO("[WGL]: Created OpenGL Debug Context: {}", (char*)(glGetString(GL_VERSION)));
 
 #else
@@ -123,14 +126,12 @@ void radium::oglRenderDriver::terminate()
 }
 
 
-/*
 void radium::oglRenderDriver::swapBuffers()
 {
+	assert(m_rdc.handleDevCtx);
+
 	SwapBuffers(m_rdc.handleDevCtx);
 }
-
-
-*/
 
 #else
 #error "Fix SConstruct. This file shouldn't have been added"

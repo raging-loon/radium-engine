@@ -31,7 +31,8 @@ oglBuffer* oglBufferFactory::createBuffer(BufferDescription& bd)
 			RAD_ENGINE_ERROR("[GL] Failed to create buffer. Unknown type: {}", (int)bd.type);
 			return nullptr;
 	}
-
+	assert(id != GL_INVALID_VALUE);
+	assert(target != GL_INVALID_ENUM);
 	oglBuffer* nbuf = new oglBuffer(id, target, bd.type, vaoID);
 
 	nbuf->copyData(bd.count * bd.size, bd.data);

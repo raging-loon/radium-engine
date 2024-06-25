@@ -40,6 +40,9 @@ int oglRenderDriver::_int_init()
 	glDebugMessageCallback((GLDEBUGPROC)oglRenderDriver::glErrorCallback, nullptr);
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, NULL, GL_FALSE);
 #endif // RAD_DEBUG
+	
+	glEnable(GL_DEPTH);
+
 
 	return 0;
 }
@@ -52,4 +55,19 @@ void oglRenderDriver::_int_terminate()
 IBuffer* oglRenderDriver::createBuffer(BufferDescription& bd)
 {
 	return m_bufferFactory.createBuffer(bd);
+}
+
+void oglRenderDriver::setClearColor(float r, float g, float b, float a)
+{
+	glClearColor(r, g, b, a);
+}
+
+void oglRenderDriver::setViewport(int x, int y, int w, int h)
+{
+	glViewport(x, y, w, h);
+}
+
+void oglRenderDriver::clear()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }

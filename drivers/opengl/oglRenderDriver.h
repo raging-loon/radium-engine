@@ -42,7 +42,6 @@ public:
 	 * │																	│
 	 * └────────────────────────────────────────────────────────────────────┘
 	 * 
-	 * 
 	 */
 	int init(RenderDriverConfig& rdc) override;
 	void terminate() override;
@@ -51,7 +50,14 @@ public:
 	oglRenderDriver& operator=(const oglRenderDriver&) = delete;
 
 	IBuffer* createBuffer(BufferDescription& bd) override;
-
+	void setClearColor(float r, float g, float b, float a) override;
+	
+	void setViewport(int x, int y, int w, int h) override;
+	
+	void swapBuffers() override;
+	
+	void clear() override;
+	
 private:
 
 	/* platform agnostic initialization */
