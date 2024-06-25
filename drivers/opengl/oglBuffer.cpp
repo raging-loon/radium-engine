@@ -32,7 +32,16 @@ void oglBuffer::unbind()
 {
 	glBindBuffer(0, m_bufferID);
 }
+void oglBuffer::bindVAO()
+{
+	glBindVertexArray(m_vertexArrayObject);
+}
 
+void oglBuffer::unbindVAO()
+{
+	glBindVertexArray(0);
+
+}
 
 void oglBuffer::copyData(unsigned int size, byte* data) 
 {

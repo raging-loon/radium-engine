@@ -28,7 +28,9 @@ public:
 
 	/* opengl specific bind functions */
 	void bind();
+	void bindVAO();
 	void unbind();
+	void unbindVAO();
 
 private:
 

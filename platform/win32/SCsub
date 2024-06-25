@@ -1,3 +1,7 @@
 Import("env")
 
 env.add_source_files(env, "*.cpp")
+
+if(env["opengl"]):
+	env.add_source_files(env, "gl/glContext.cpp")
+	

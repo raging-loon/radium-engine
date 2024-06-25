@@ -38,7 +38,7 @@ int main(int argc, char** argv)
 	
 	radium::RenderAPI api = static_cast<radium::RenderAPI>((int)cfgmgr["api"]);
 
-	test->createGLContext();
+	auto driverConfig = test->createRenderDriverConfig();
 	
 	radium::IRenderDriver* rd = nullptr;
 	
@@ -47,7 +47,7 @@ int main(int argc, char** argv)
 		rd = new radium::oglRenderDriver;
 	}
 
-	rd->init();
+	rd->init(driverConfig);
 	test->show();
 
 	float vertices[] = {

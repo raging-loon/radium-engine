@@ -72,7 +72,7 @@ if env["platform"] == "win32":
 	if(env["opengl"]):
 		env.Append(CPPDEFINES=["GLEW_STATIC", "RAD_API_OPENGL"])
 		env.Append(LIBS = ["opengl32"])
-		env.Append(CPPPATH=['thirdparty/glew/include','thirdparty/glext/include'])
+		env.Append(CPPPATH=['thirdparty/glew/include'])
 		env.source_files.append('thirdparty/glew/src/glew.c')
 
 

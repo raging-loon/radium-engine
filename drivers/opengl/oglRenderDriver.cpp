@@ -22,7 +22,7 @@ oglRenderDriver::~oglRenderDriver()
 	
 }
 
-int oglRenderDriver::init()
+int oglRenderDriver::_int_init()
 {
 	auto err = glewInit();
 
@@ -44,9 +44,8 @@ int oglRenderDriver::init()
 	return 0;
 }
 
-void oglRenderDriver::terminate()
+void oglRenderDriver::_int_terminate()
 {
-	
 }
 
 

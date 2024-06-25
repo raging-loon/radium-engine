@@ -1,18 +1,13 @@
 #ifndef GRAPHICS_IDISPLAY_H_
 #define GRAPHICS_IDISPLAY_H_
 
+#include "graphics/RenderDriverConfig.h"
+
 namespace radium
 {
 /**
  * IDisplay - interface through which
  *			  windows are created
- * 
- * In OpenGL builds, the display is 
- * repsonsible for creating the OpenGL context.
- * 
- * With DirectX and Vulkan, each respective API
- * is resposible for creating their own contexts.
- * 
 */
 class IDisplay
 {
@@ -25,10 +20,7 @@ public:
 
 	virtual void processEvents() = 0;
 
-
-#ifdef RAD_API_OPENGL
-	virtual int createGLContext() = 0;
-#endif // RAD_API_OPENGL
+	virtual RenderDriverConfig createRenderDriverConfig() = 0;
 
 };
 

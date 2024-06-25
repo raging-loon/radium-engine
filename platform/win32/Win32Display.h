@@ -2,6 +2,7 @@
 #define PLATFORM_WIN32_DISPLAY_H_
 
 #include "graphics/IDisplay.h"
+#include "graphics/RenderDriverConfig.h"
 #include <Windows.h>
 
 namespace radium::win32
@@ -19,11 +20,7 @@ public:
 	void hide() override;
 	
 	void processEvents() override;
-
-
-#ifdef RAD_API_OPENGL
-	int createGLContext() override;
-#endif // RAD_API_OPENGL
+	RenderDriverConfig createRenderDriverConfig() override;
 
 public:
 
