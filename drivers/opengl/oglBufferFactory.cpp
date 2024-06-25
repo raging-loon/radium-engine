@@ -1,15 +1,17 @@
 #include "oglBufferFactory.h"
 #include "core/debug/Log.h"
 #include "oglBuffer.h"
+#include "graphics/VertexData.h"
+
 #include <GL/glew.h>
 
 using namespace radium;
 
 oglBuffer* oglBufferFactory::createBuffer(BufferDescription& bd)
 {
-	GLuint id = GL_INVALID_ENUM;
-	GLuint vaoID = GL_INVALID_ENUM;
-	GLenum target = GL_INVALID_ENUM;
+	GLuint id		= GL_INVALID_VALUE;
+	GLuint vaoID	= GL_INVALID_VALUE;
+	GLenum target	= GL_INVALID_ENUM;
 
 	int bufCreateStatus = 0;
 
@@ -30,14 +32,20 @@ oglBuffer* oglBufferFactory::createBuffer(BufferDescription& bd)
 			return nullptr;
 	}
 
-	oglBuffer* nbuf = new oglBuffer(id, target, vaoID);
+	oglBuffer* nbuf = new oglBuffer(id, target, bd.type, vaoID);
 
-
+	nbuf->copyData(bd.count * bd.size, bd.data);
+	
+	nbuf->unbind();
+	
 	return nbuf;
 }
 
 int oglBufferFactory::createIndexBuffer(BufferDescription& bd, GLuint& id)
 {
+	glGenBuffers(1, &id);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
+
 	return 0;
 }
 
@@ -48,17 +56,11 @@ int oglBufferFactory::createVertexBuffer(BufferDescription& bd, GLuint& id, GLui
 	glGenBuffers(1, &id);
 	glBindBuffer(GL_ARRAY_BUFFER, id);
 
-	if (bd.data)
-	{
-		glBufferData(
-			GL_ARRAY_BUFFER,
-			bd.size * bd.count,
-			bd.data,
-			GL_STATIC_DRAW
-		);
-	}
+	// format data
 
-
+	// position (vec3)
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)0);
+	glEnableVertexAttribArray(0);
 
 	return 0;
 }

@@ -53,6 +53,5 @@ void oglRenderDriver::terminate()
 
 IBuffer* oglRenderDriver::createBuffer(BufferDescription& bd)
 {
-	
-
+	return m_bufferFactory.createBuffer(bd);
 }
