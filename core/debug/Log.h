@@ -35,6 +35,8 @@ struct fmt::formatter<radium::Variant> : fmt::formatter<std::string>
 		{
 			case radium::Variant::INT:
 				return fmt::format_to(ctx.out(), "{}", (int)v);
+			case radium::Variant::BOOL:
+				return fmt::format_to(ctx.out(), "{}", (bool)v);
 			default:
 				return fmt::format_to(ctx.out(), "{}", "unknown type");
 		}

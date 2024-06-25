@@ -1,22 +1,28 @@
-#include "GLRenderDriver.h"
+#include "oglRenderDriver.h"
 #include "core/debug/Log.h"
+#include "graphics/IBuffer.h"
+#include "drivers/opengl/oglBuffer.h"
 
 #include <GL/glew.h>
 #include <GL/GL.h>
 
-using radium::glRenderDriver;
+using radium::oglRenderDriver;
+using radium::BufferDescription;
+using radium::IBuffer;
+using radium::oglBuffer;
 
-glRenderDriver::glRenderDriver()
+oglRenderDriver::oglRenderDriver()
 {
 
 }
 
-glRenderDriver::~glRenderDriver()
+oglRenderDriver::~oglRenderDriver()
 {
 	terminate();
+	
 }
 
-int glRenderDriver::init()
+int oglRenderDriver::init()
 {
 	auto err = glewInit();
 
@@ -31,7 +37,7 @@ int glRenderDriver::init()
 #ifdef RAD_DEBUG
 	glEnable(GL_DEBUG_OUTPUT);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-	glDebugMessageCallback((GLDEBUGPROC)glRenderDriver::glErrorCallback, nullptr);
+	glDebugMessageCallback((GLDEBUGPROC)oglRenderDriver::glErrorCallback, nullptr);
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, NULL, GL_FALSE);
 	glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_OTHER,1, GL_DEBUG_SEVERITY_NOTIFICATION, 22, "Debug Context Created");
 #endif // RAD_DEBUG
@@ -39,7 +45,14 @@ int glRenderDriver::init()
 	return 0;
 }
 
-void glRenderDriver::terminate()
+void oglRenderDriver::terminate()
 {
 	
+}
+
+
+IBuffer* oglRenderDriver::createBuffer(BufferDescription& bd)
+{
+	
+
 }

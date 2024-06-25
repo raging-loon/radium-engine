@@ -12,11 +12,16 @@ enum class RenderAPI
 	VULKAN
 };
 
+class IBuffer;
+struct BufferDescription;
+
 class IRenderDriver
 {
 public:
 	virtual int init() = 0;
 	virtual void terminate() = 0;
+
+	virtual IBuffer* createBuffer(BufferDescription& bd);
 
 private:
 

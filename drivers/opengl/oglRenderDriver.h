@@ -2,21 +2,26 @@
 #define DRIVERS_OPENGL_GL_RENDER_DRIVER_H_
 
 #include "graphics/IRenderDriver.h"
+#include "graphics/IBuffer.h"
+#include "drivers/opengl/oglBuffer.h"
+#include "drivers/opengl/oglBufferFactory.h"
 
 namespace radium
 {
 
-class glRenderDriver : public IRenderDriver
+class oglRenderDriver : public IRenderDriver
 {
 public:
-	glRenderDriver();
-	~glRenderDriver();
+	oglRenderDriver();
+	~oglRenderDriver();
 	
 	int init() override;
 	void terminate() override;
 
-	glRenderDriver(const glRenderDriver&) = delete;
-	glRenderDriver& operator=(const glRenderDriver&) = delete;
+	oglRenderDriver(const oglRenderDriver&) = delete;
+	oglRenderDriver& operator=(const oglRenderDriver&) = delete;
+
+	IBuffer* createBuffer(BufferDescription& bd) override;
 
 private:
 
@@ -33,6 +38,8 @@ private:
 	static const char* debugGetType(unsigned int type);
 #endif // RAD_DEBUG
 		
+
+	oglBufferFactory m_bufferFactory;
 };
 
 

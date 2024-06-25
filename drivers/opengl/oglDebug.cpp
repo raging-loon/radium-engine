@@ -1,6 +1,6 @@
 #ifdef RAD_DEBUG
 
-#include "glRenderDriver.h"
+#include "oglRenderDriver.h"
 #include "core/debug/Log.h"
 #include <GL/glew.h>
 
@@ -9,8 +9,8 @@
 /************** GL DEBUG CALLBACK/PARSING **************/
 /*******************************************************/
 
-using radium::glRenderDriver;
-void glRenderDriver::glErrorCallback(
+using radium::oglRenderDriver;
+void oglRenderDriver::glErrorCallback(
 	unsigned int source,
 	unsigned int type,
 	unsigned int id,
@@ -33,7 +33,7 @@ void glRenderDriver::glErrorCallback(
 }
 
 
-const char* glRenderDriver::debugGetSource(unsigned int source)
+const char* oglRenderDriver::debugGetSource(unsigned int source)
 {
 	switch (source)
 	{
@@ -47,7 +47,7 @@ const char* glRenderDriver::debugGetSource(unsigned int source)
 	return "UNKNOWN";
 }
 
-const char* glRenderDriver::debugGetType(unsigned int type)
+const char* oglRenderDriver::debugGetType(unsigned int type)
 {
 	switch (type)
 	{

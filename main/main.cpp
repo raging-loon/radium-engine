@@ -4,7 +4,7 @@
 #include "core/Variant.h"
 #include "graphics/IDisplay.h"
 #include "platform/win32/Win32Display.h"
-#include "drivers/opengl/GLRenderDriver.h"
+#include "drivers/opengl/oglRenderDriver.h"
 
 
 #include <cstdio>
@@ -42,7 +42,7 @@ int main(int argc, char** argv)
 	
 	if (api == radium::RenderAPI::OPENGL)
 	{
-		rd = new radium::glRenderDriver;
+		rd = new radium::oglRenderDriver;
 	}
 
 	rd->init();
