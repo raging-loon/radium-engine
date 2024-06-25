@@ -23,6 +23,9 @@ public:
 	virtual void show() = 0;
 	virtual void hide() = 0;
 
+	virtual void processEvents() = 0;
+
+
 #ifdef RAD_API_OPENGL
 	virtual int createGLContext() = 0;
 #endif // RAD_API_OPENGL

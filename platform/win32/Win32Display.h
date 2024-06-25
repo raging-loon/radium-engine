@@ -17,6 +17,9 @@ public:
 
 	void show() override;
 	void hide() override;
+	
+	void processEvents() override;
+
 
 #ifdef RAD_API_OPENGL
 	int createGLContext() override;

@@ -39,7 +39,6 @@ int oglRenderDriver::init()
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 	glDebugMessageCallback((GLDEBUGPROC)oglRenderDriver::glErrorCallback, nullptr);
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, NULL, GL_FALSE);
-	glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_OTHER,1, GL_DEBUG_SEVERITY_NOTIFICATION, 22, "Debug Context Created");
 #endif // RAD_DEBUG
 
 	return 0;

@@ -10,16 +10,15 @@ using radium::byte;
 
 
 
-oglBuffer::oglBuffer(GLuint bufID, GLenum target, buffer_t type, GLuint vaoID = GL_INVALID_VALUE)
+oglBuffer::oglBuffer(GLuint bufID, GLenum target, buffer_t type, GLuint vaoID)
 	: m_type(type), m_bufferID(bufID), m_target(target), m_vertexArrayObject(vaoID)
 {
-
 }
 
 void oglBuffer::destroy()
 {
 	if (m_vertexArrayObject != GL_INVALID_VALUE)
-		glDeleteVertexArrays(m_vertexArrayObject);
+		glDeleteVertexArrays(1, &m_vertexArrayObject);
 
 	glDeleteBuffers(1, &m_bufferID);
 }
