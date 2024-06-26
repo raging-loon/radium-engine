@@ -2,6 +2,7 @@
 #define GRAPHICS_IRENDER_DRIVER_H_
 
 #include "RenderDriverConfig.h"
+#include "IShaderProgram.h"
 namespace radium
 {
 
@@ -27,7 +28,9 @@ public:
 
 
 	virtual IBuffer* createBuffer(BufferDescription& bd) = 0;
-	
+	virtual ShaderID createShader(ShaderProgramDescription& sd) = 0;
+
+
 	virtual void setClearColor(float r, float g, float b, float a) = 0;
 	
 	virtual void setViewport(int x, int y, int w, int h) = 0;

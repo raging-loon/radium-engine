@@ -3,6 +3,7 @@
 
 #include "graphics/IRenderDriver.h"
 #include "graphics/IBuffer.h"
+#include "graphics/IShaderProgram.h"
 #include "drivers/opengl/oglBuffer.h"
 #include "drivers/opengl/oglBufferFactory.h"
 
@@ -46,10 +47,9 @@ public:
 	int init(RenderDriverConfig& rdc) override;
 	void terminate() override;
 
-	oglRenderDriver(const oglRenderDriver&) = delete;
-	oglRenderDriver& operator=(const oglRenderDriver&) = delete;
-
 	IBuffer* createBuffer(BufferDescription& bd) override;
+	ShaderID createShader(ShaderProgramDescription& spd) override;
+
 	void setClearColor(float r, float g, float b, float a) override;
 	
 	void setViewport(int x, int y, int w, int h) override;
@@ -57,7 +57,13 @@ public:
 	void swapBuffers() override;
 	
 	void clear() override;
-	
+
+
+public:
+
+	oglRenderDriver(const oglRenderDriver&) = delete;
+	oglRenderDriver& operator=(const oglRenderDriver&) = delete;
+
 private:
 
 	/* platform agnostic initialization */
