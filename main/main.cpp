@@ -83,7 +83,6 @@ int main(int argc, char** argv)
 	while (true)
 	{
 		test->processEvents();
-		((oglRenderDriver*)rd)->testDraw(vbuffer, ibuffer);
 		SwapBuffers(driverConfig.handleDevCtx);
 	}
 

@@ -16,7 +16,7 @@ static uint16_t parseTestParam(const char* param);
 
 int main(int argc, char** argv)
 {
-	printf("Radium Engine - Unit Tests\n\n");
+	printf("Radium Engine - Unit Tests\n");
 
 	if (argc != 2)
 	{
@@ -40,7 +40,7 @@ int main(int argc, char** argv)
 	if (failedTests != 0)
 		printf("\n\033[31m%d out of %d tests failed\033[0m\n", failedTests, radium_unittest::g_totalUnitTests);
 	else
-		printf("\n\033[33mAll tests passed :)\033[0m\n");
+		printf("\n\033[32mAll %d tests passed :)\033[0m\n", radium_unittest::g_totalUnitTests);
 	
 	return failedTests;
 }
@@ -82,11 +82,12 @@ uint16_t parseTestParam(const char* param)
 {
 	assert(param);
 
-	if (strcmp(param, "all"))
+	if (strcmp(param, "all") == 0)
 		return radium_unittest::TEST_ALL;
-	
-	if (strcmp(param, "config"))
+	if (strcmp(param, "config") == 0)
 		return radium_unittest::TEST_CONFIG;
+	if (strcmp(param, "math") == 0)
+		return radium_unittest::TEST_MATH;
 	else
 		printf("Unknown Test Parameter: %s\n", param);
 	return 0;

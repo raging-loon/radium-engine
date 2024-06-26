@@ -123,7 +123,7 @@ struct Vec3
 	static const Vec3 LEFT;
 	static const Vec3 RIGHT;
 	static const Vec3 UP;
-	static const Vec3 UP;
+	static const Vec3 DOWN;
 	static const Vec3 FORWARD;
 	static const Vec3 BACK;
 	static const Vec3 ONE;

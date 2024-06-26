@@ -23,17 +23,24 @@ def add_source_files(self, files):
 	for file in newfiles:
 		env.source_files.append(file)
 
-
+# make it available to sub constructs
 env.add_source_files = add_source_files
 
+###############################
+########### Options ###########
+###############################
 
 opts = Variables(['custom.py'], ARGUMENTS)
 
 # Targets
 opts.Add(EnumVariable("target", "Compilation Target", "editor_debug", ("editor_debug", "editor_release", "blob_debug", "blob_release")))
 opts.Add(EnumVariable("platform", "Target Platform", "auto", ("auto", "win32", "linux64")))
+
+# misc
 opts.Add(BoolVariable("tests", "Build unit tests", False))
 opts.Add(BoolVariable("vsproj", "Build Visual Studio project", False))
+# TODO: specify which are supported by GCC/Clang
+opts.Add(EnumVariable("sanitizer", "Run selected sanitizer[s]", "none", ("none", "address", "memory", "leak", "thread", "undefined")))
 
 # Render Drivers
 opts.Add(BoolVariable("opengl", "Enable OpenGL Render Driver", True))
@@ -56,35 +63,28 @@ if(env["platform"] == "auto"):
 	if(sys.platform == "win32"):
 		env["platform"] = "win32"
 
+
+#######################
+# Win32 Build Options #
+#######################
 if env["platform"] == "win32":
-	# use C++20 and disable exceptions
-	env.Append(CCFLAGS=["/std:c++20","/EHsc"])
-	# Add debug symbols and optimizaion
-	env.Append(LIBS = ["kernel32", "user32", "gdi32", "winspool", "comdlg32", "advapi32",
-					   "shell32", "ole32", "oleaut32", "uuid", "odbc32", "odbccp32"])
-	
-	if(env.is_debug):
-		env.Append(CCFLAGS=["/DEBUG","/Od"])
-	else:
-		env.Append(CPPDEFINES=["RAD_WIN32_RELEASE"])
-		
-	
-	if(env["opengl"]):
-		env.Append(CPPDEFINES=["GLEW_STATIC", "RAD_API_OPENGL"])
-		env.Append(LIBS = ["opengl32"])
-		env.Append(CPPPATH=['thirdparty/glew/include'])
-		env.source_files.append('thirdparty/glew/src/glew.c')
+	from buildlib.win32 import addWin32Options
+
+	addWin32Options(env)
 
 
-	env.Append(CPPDEFINES=["RAD_PLATFORM_WIN32"])
 
 # add current directory to includepath ~~~~~~~~~~~~v
 env.Append(CPPPATH=['thirdparty/spdlog/include', os.path.abspath('.').replace('\\','/')])
 
+#######################################
+########## Chain Load Engine ##########
+#######################################
 
 Export("env")
 
 SConscript("core/SCsub")
+SConscript("math/SCsub")
 
 if not env["tests"]:
 	SConscript("main/SCsub")

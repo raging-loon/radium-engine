@@ -8,3 +8,5 @@
 /Debug
 /build
 *.out
+*.pdb
+__pycache__

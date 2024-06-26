@@ -17,7 +17,7 @@ constexpr unsigned int TEST_MATH	= (1 << 1);
 
 int runTests(uint32_t);
 
-
+int runMathTests();
 int runConfigTests();
 
 } // radium_unittest
