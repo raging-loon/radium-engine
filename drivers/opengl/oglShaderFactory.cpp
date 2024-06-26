@@ -15,6 +15,7 @@ GLuint oglShaderFactory::createShaderProgram(ShaderProgramDescription& spd)
 {
     assert(spd.filename);
 
+    // For any shader program, we MUST at least have a pixel and vertex shader
     if (!spd.vertexShader || !spd.pixelShader)
     {
         RAD_ENGINE_ERROR("[GL] Shader descriptor for {} has no Vertex/Pixel shader listed", spd.filename);
@@ -32,8 +33,6 @@ GLuint oglShaderFactory::createShaderProgram(ShaderProgramDescription& spd)
         return -1;
 
     RAD_ENGINE_INFO("[GL] Compile shader at {}; {} bytes", spd.filename, filesize);
-
-
 
     auto vshaderId = createShader(*spd.vertexShader, buffer, filesize);
     if (vshaderId == -1)
@@ -64,6 +63,7 @@ GLuint oglShaderFactory::createShaderProgram(ShaderProgramDescription& spd)
 
 char* oglShaderFactory::_int_readShader(const char* filename, U32& size)
 {
+    // TODO: Move most of this into the FS abstraction layer
     FILE* fp = fopen(filename, "r");
     if (!fp)
     {
@@ -71,7 +71,7 @@ char* oglShaderFactory::_int_readShader(const char* filename, U32& size)
         return nullptr;
     }
 
-
+    // Get file size
     fseek(fp, 0L, SEEK_END);
     size = ftell(fp);
     rewind(fp);
@@ -162,7 +162,34 @@ GLuint oglShaderFactory::_int_createShader(GLenum type, const char* source, U32 
     int compileStatus = 0;
     glGetShaderiv(sid, GL_COMPILE_STATUS, &compileStatus);
 
+#ifdef RAD_DEBUG
+    char errorBuffer[256];
 
+    if (compileStatus == GL_FALSE)
+    {
+        int len = -1;
+        glGetShaderiv(sid, GL_INFO_LOG_LENGTH, &len);
+        glGetShaderInfoLog(sid, sizeof(errorBuffer), &len, errorBuffer);
+
+        // Since this is only compiled in debug builds I am going to ignore
+        // the performance/memory drawbacks of this...
+
+        const char* shaderTypeStr = nullptr;
+
+        switch (type){
+            case GL_VERTEX_SHADER:
+                shaderTypeStr = "VERTEX"; break;
+            case GL_FRAGMENT_SHADER:
+                shaderTypeStr = "FRAGMENT"; break;
+            default:
+                shaderTypeStr = "UNKNOWN"; break;
+        }
+
+        RAD_ENGINE_ERROR("[GL] Failed to compile {} shader: {}", shaderTypeStr, errorBuffer);
+        glDeleteShader(sid);
+    }
+
+#endif // RAD_DEBUG
 
     return (compileStatus == GL_TRUE ? sid : -1);
 }
@@ -176,7 +203,13 @@ int oglShaderFactory::_int_extractShader(const char* sectionName, const char* so
     const char* srcPtr = source;
 
     size_t sectionNameLen = strlen(sectionName);
+    /*
+        Iterate over the source. If we see `#section <sectionName>`, then start adding to the buffer
+        until we see #endsection
 
+        If `sectionName` is not found, the buffer will not be filled, and a sectionSize of '0' will be returned,
+        evoking an error in the calling function
+    */
 
     while (*srcPtr && srcPtr < (source + sourceSize))
     {
@@ -186,6 +219,7 @@ int oglShaderFactory::_int_extractShader(const char* sectionName, const char* so
         {
             if (strncmp(srcPtr, "#section ", 9) == 0)
             {
+                // `9` for len("#section ")
                 if (strncmp(srcPtr + 9, sectionName, sectionNameLen - 1) == 0)
                 {
                     isReadingShaderSection = true;
@@ -195,11 +229,11 @@ int oglShaderFactory::_int_extractShader(const char* sectionName, const char* so
                     continue;
                 }
             }
+            // `11` for len("#endsection")
             else if (strncmp(srcPtr, "#endsection", 11) == 0 && isReadingShaderSection)
             {
                 break;
             }
-
 
         }
 
@@ -214,6 +248,7 @@ int oglShaderFactory::_int_extractShader(const char* sectionName, const char* so
     }
 
     out[sectionSize + 1] = 0;
+
     return sectionSize;
 }
 

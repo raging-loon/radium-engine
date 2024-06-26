@@ -26,8 +26,10 @@ private:
 	/* Actually create the shader */
 	static GLuint _int_createShader(GLenum type, const char* source, U32 size);
 
+	/* Read shader into a new'ed up buffer */
 	static char* _int_readShader(const char* filename, U32& size);
 
+	/* Try to link the program */
 	static GLuint _int_linkShaderProgram(GLuint shaders[], U8 numShaders);
 };
 
