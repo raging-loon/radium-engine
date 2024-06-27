@@ -49,6 +49,8 @@ int main(int argc, char** argv)
 	}
 
 	rd->init(driverConfig);
+	rd->setClearColor(0.5, 0.50, 0.5, 1.0);
+	rd->setViewport(0, 0, 800, 600);
 
 	ShaderProgramDescription spd;
 	ShaderDescription vdesc
@@ -72,46 +74,52 @@ int main(int argc, char** argv)
 
 	auto s = rd->createShader(spd);
 
-	//test->show();
-	//float vertices[] = {
-	// 0.5f,  0.5f, 0.0f,  // top right
-	// 0.5f, -0.5f, 0.0f,  // bottom right
-	//-0.5f, -0.5f, 0.0f,  // bottom left
-	//-0.5f,  0.5f, 0.0f   // top left 
-	//};
-	//unsigned int indices[] = {  // note that we start from 0!
-	//	0, 1, 3,   // first triangle
-	//	1, 2, 3    // second triangle
-	//};
+	test->show();
+	float vertices[] = {
+	 0.5f,  0.5f, 0.0f,  // top right
+	 0.5f, -0.5f, 0.0f,  // bottom right
+	-0.5f, -0.5f, 0.0f,  // bottom left
+	-0.5f,  0.5f, 0.0f   // top left 
+	};
+	unsigned int indices[] = {  // note that we start from 0!
+		0, 1, 3,   // first triangle
+		1, 2, 3    // second triangle
+	};
 
-	//
-	//BufferDescription vbd = {
-	//	.type = buffer_t::VERTEX,
-	//	.size = sizeof(float),
-	//	.count = 12,
-	//	.data = (byte*)vertices
-	//};
+	
+	BufferDescription vbd = {
+		.type = buffer_t::VERTEX,
+		.size = sizeof(float),
+		.count = 12,
+		.data = &vertices
+	};
 
-	//BufferDescription ibd = {
-	//	.type = buffer_t::INDEX,
-	//	.size = sizeof(unsigned int),
-	//	.count = 6,
-	//	.data = (byte*)indices
-	//};
+	BufferDescription ibd = {
+		.type = buffer_t::INDEX,
+		.size = sizeof(unsigned int),
+		.count = 6,
+		.data = &indices
+	};
 
-	//auto* vbuffer = rd->createBuffer(vbd);
-	//auto* ibuffer = rd->createBuffer(ibd);
+	auto* vbuffer = rd->createBuffer(vbd);
+	auto* ibuffer = rd->createBuffer(ibd);
 
 
-	//while (true)
-	//{
-	//	test->processEvents();
-	//	SwapBuffers(driverConfig.handleDevCtx);
-	//}
+	while (!(GetKeyState(VK_ESCAPE) & 0x8000))
+	{
+		test->processEvents();
+		rd->clear();
+		glUseProgram(s);
+		((oglBuffer*)vbuffer)->bindVAO();
+		((oglBuffer*)vbuffer)->bind();
+		((oglBuffer*)ibuffer)->bind();
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
+		rd->swapBuffers();
+	}
 
-	//vbuffer->destroy();
-	//ibuffer->destroy();
-	//test->destroy();
+	vbuffer->destroy();
+	ibuffer->destroy();
+	test->destroy();
 
 	return 0;
 

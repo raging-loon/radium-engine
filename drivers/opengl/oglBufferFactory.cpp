@@ -53,14 +53,14 @@ int oglBufferFactory::createIndexBuffer(BufferDescription& bd, GLuint& id)
 int oglBufferFactory::createVertexBuffer(BufferDescription& bd, GLuint& id, GLuint& vaoID)
 {
 	glGenVertexArrays(1, &vaoID);
+	glBindVertexArray(vaoID);
 
 	glGenBuffers(1, &id);
 	glBindBuffer(GL_ARRAY_BUFFER, id);
-
+	
 	// format data
-
 	// position (vec3)
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,  sizeof(float) * 3, (void*)0);
 	glEnableVertexAttribArray(0);
 
 	return 0;

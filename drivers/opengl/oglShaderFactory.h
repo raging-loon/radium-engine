@@ -22,15 +22,15 @@ public:
 private:
 
 	/* Given a buffer, attempt to extract the section marked with `#section <sectionName>` */
-	static int _int_extractShader(const char* sectionName, const char* source, U32 sourceSize, char* out, U32 outSize);
+	static int		_int_extractShader(const char* sectionName, const char* source, U32 sourceSize, char* out, U32 outSize);
 	/* Actually create the shader */
-	static GLuint _int_createShader(GLenum type, const char* source, U32 size);
+	static GLuint	_int_createShader(GLenum type, const char* source, U32 size);
 
 	/* Read shader into a new'ed up buffer */
-	static char* _int_readShader(const char* filename, U32& size);
+	static char*	_int_readShader(const char* filename, U32& size);
 
 	/* Try to link the program */
-	static GLuint _int_linkShaderProgram(GLuint shaders[], U8 numShaders);
+	static GLuint	_int_linkShaderProgram(GLuint shaders[], U8 numShaders);
 };
 
 } // radium

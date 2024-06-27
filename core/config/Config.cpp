@@ -50,16 +50,18 @@ bool Config::loadConfig(const char* filename )
 
 	// TODO: MOVE THIS TO THE FILSYSTEM ABSTRACTION
 	FILE* fp = fopen(filename, "r");
-	fseek(fp, 0, SEEK_END);
-	size_t filesize = ftell(fp);
-
-	RAD_ENGINE_INFO("Loading config file at {} ({} bytes)", filename, filesize);
-	rewind(fp);
 	if (!fp)
 	{
 		RAD_ENGINE_CRITICAL("Failed to open config file at {}", filename);
 		return false;
 	}
+	
+	fseek(fp, 0, SEEK_END);
+	size_t filesize = ftell(fp);
+
+	RAD_ENGINE_INFO("Loading config file at {} ({} bytes)", filename, filesize);
+	rewind(fp);
+	
 
 	char* filebuffer = new char[filesize];
 

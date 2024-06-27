@@ -13,7 +13,7 @@ using radium::byte;
 
 
 oglBuffer::oglBuffer(GLuint bufID, GLenum target, buffer_t type, GLuint vaoID)
-	: m_type(type), m_bufferID(bufID), m_target(target), m_vertexArrayObject(vaoID)
+	: m_type(type), m_bufferID(bufID), m_vertexArrayObject(vaoID), m_target(target)
 {
 }
 
@@ -45,7 +45,7 @@ void oglBuffer::unbindVAO()
 
 }
 
-void oglBuffer::copyData(unsigned int size, byte* data) 
+void oglBuffer::copyData(unsigned int size, void* data) 
 {
 	assert(data != nullptr);
 	glBufferData(
