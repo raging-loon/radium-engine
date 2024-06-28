@@ -63,7 +63,8 @@ public:
 	*/
 	virtual void updateUniformBuffer(U32 id, U32 index, const void* data, U32 dataSize) = 0;
 	
-
+	//virtual void setPerPassUniformBuffer(U32 id);
+	virtual void setPerObjectUniformBuffer(U32 id, U32 size) = 0;
 private:
 
 };

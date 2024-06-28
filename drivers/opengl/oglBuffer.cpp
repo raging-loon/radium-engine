@@ -12,8 +12,8 @@ using radium::byte;
 
 
 
-oglBuffer::oglBuffer(GLuint bufID, GLenum target, buffer_t type, GLuint vaoID)
-	: m_type(type), m_bufferID(bufID), m_vertexArrayObject(vaoID), m_target(target)
+oglBuffer::oglBuffer(U32 count, GLuint bufID, GLenum target, buffer_t type, GLuint vaoID)
+	: count(count), m_type(type), m_bufferID(bufID), m_vertexArrayObject(vaoID), m_target(target)
 {
 }
 

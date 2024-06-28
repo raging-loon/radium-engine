@@ -33,7 +33,7 @@ oglBuffer* oglBufferFactory::createBuffer(BufferDescription& bd)
 	}
 	assert(id != GL_INVALID_VALUE);
 	assert(target != GL_INVALID_ENUM);
-	oglBuffer* nbuf = new oglBuffer(id, target, bd.type, vaoID);
+	oglBuffer* nbuf = new oglBuffer(bd.count, id, target, bd.type, vaoID);
 
 	nbuf->copyData(bd.count * bd.size, bd.data);
 	

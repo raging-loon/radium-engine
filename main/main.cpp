@@ -126,8 +126,20 @@ int main(int argc, char** argv)
 	float color[] = { 0.5, 0.0, 0.0, 1.0 };
 	float color2[] = { 0.0, 0.0, 0.5, 1.0 };
 	auto id = s->createUniformBuffer(10, sizeof(float) * 4, 2);
+	s->setPerObjectUniformBuffer(id, sizeof(color));
+
 	s->updateUniformBuffer(id, 0, color, sizeof(color));
 	s->updateUniformBuffer(id, 1, color2, sizeof(color2));
+
+	RenderItem list[] =
+	{
+		{
+			.vertexBuffer = vbuffer1, .indexBuffer = ibuffer1, .uniformIndex = 0
+		},
+		{
+			.vertexBuffer = vbuffer2, .indexBuffer = ibuffer1, .uniformIndex = 1
+		}
+	};
 
 	while (!(GetKeyState(VK_ESCAPE) & 0x8000))
 	{
@@ -135,22 +147,8 @@ int main(int argc, char** argv)
 
 
 		rd->clear();
-		glUseProgram(((oglShaderProgram*)s)->m_shaderID);
 		
-		((oglBuffer*)vbuffer1)->bindVAO();
-		((oglBuffer*)vbuffer1)->bind();
-		((oglBuffer*)ibuffer1)->bind();
-		glBindBufferRange(GL_UNIFORM_BUFFER, 2, id, 0, sizeof(color));
-
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
-
-		((oglBuffer*)vbuffer2)->bindVAO();
-		((oglBuffer*)vbuffer2)->bind();
-		((oglBuffer*)ibuffer1)->bind();
-		
-		glBindBufferRange(GL_UNIFORM_BUFFER, 2, id, sizeof(color2), sizeof(color2));
-
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
+		((oglRenderDriver*)rd)->draw(s, list, 2);
 
 		rd->swapBuffers();
 	}

@@ -7,6 +7,8 @@
 #include "drivers/opengl/oglBuffer.h"
 #include "drivers/opengl/oglBufferFactory.h"
 
+#include "graphics/RenderItem.h"
+
 namespace radium
 {
 
@@ -50,6 +52,8 @@ public:
 	IBuffer* createBuffer(BufferDescription& bd) override;
 	IShaderProgram* createShader(ShaderProgramDescription& spd) override;
 
+	void draw(IShaderProgram* shader, RenderItem* drawList, U32 dlSize);
+
 	void setClearColor(float r, float g, float b, float a) override;
 	
 	void setViewport(int x, int y, int w, int h) override;
@@ -85,8 +89,13 @@ private:
 	static const char* debugGetType(unsigned int type);
 #endif // RAD_DEBUG
 		
+	/* ShaderProgram ID => ShaderProgram */
+	//std::unordered_map<U32, IShaderProgram*> m_spID2spMap;
+
+	IShaderProgram* opaqueShader;
 
 	oglBufferFactory m_bufferFactory;
+
 	RenderDriverConfig m_rdc;
 };
 

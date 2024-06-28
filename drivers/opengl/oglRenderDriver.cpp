@@ -70,6 +70,27 @@ IShaderProgram* oglRenderDriver::createShader(ShaderProgramDescription& spd)
 	
 }
 
+void oglRenderDriver::draw(IShaderProgram* shader, RenderItem* drawList, U32 dlSize)
+{
+	auto sp = ((oglShaderProgram*)shader);
+	glUseProgram(((oglShaderProgram*)shader)->m_shaderID);
+
+	for (U32 i = 0; i < dlSize; i++)
+	{
+		RenderItem* cur = &drawList[i];
+		oglBuffer* idxb = (oglBuffer*)cur->indexBuffer;
+		oglBuffer* vtxb = (oglBuffer*)cur->vertexBuffer;
+		
+		vtxb->bindVAO();
+		vtxb->bind();
+		idxb->bind();
+
+		glBindBufferRange(GL_UNIFORM_BUFFER, 2, sp->m_perObjectUB, cur->uniformIndex * sp->m_perObjectItemSize, sp->m_perObjectItemSize);
+		glDrawElements(GL_TRIANGLES, idxb->count, GL_UNSIGNED_INT, nullptr);
+	}
+
+}
+
 void oglRenderDriver::setClearColor(float r, float g, float b, float a)
 {
 	glClearColor(r, g, b, a);

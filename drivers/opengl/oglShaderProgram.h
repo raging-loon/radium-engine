@@ -9,7 +9,7 @@ namespace radium
 
 class oglShaderProgram : public IShaderProgram
 {
-
+	friend class oglRenderDriver;
 public:
 	oglShaderProgram(ShaderID id) : m_shaderID(id) {}
 
@@ -17,9 +17,17 @@ public:
 	
 	void updateUniformBuffer(U32 id, U32 index, const void* data, U32 dataSize) override;
 
+	void setPerObjectUniformBuffer(U32 id, U32 size) override 
+	{
+		m_perObjectUB = id; 
+		m_perObjectItemSize = size;
+	}
+
 	ShaderID m_shaderID;
 private:
 
+	U32 m_perObjectUB;
+	U32 m_perObjectItemSize;
 };
 
 } // radium

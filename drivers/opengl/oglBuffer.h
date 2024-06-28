@@ -12,9 +12,10 @@ namespace radium
 
 class oglBuffer : public IBuffer
 {
+	friend class oglRenderDriver;
 public:
 
-	oglBuffer(GLuint bufID, GLenum target, buffer_t type,  GLuint vaoID = GL_INVALID_VALUE);
+	oglBuffer(U32 count, GLuint bufID, GLenum target, buffer_t type, GLuint vaoID = GL_INVALID_VALUE);
 
 public:
 
@@ -34,6 +35,7 @@ public:
 
 private:
 
+	U32 count;
 	buffer_t m_type;
 	GLuint m_bufferID;
 	/* used if this is vertex buffer */
