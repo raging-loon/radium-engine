@@ -34,6 +34,6 @@ U32 oglShaderProgram::createUniformBuffer(U32 count, U32 size, U32 binding)
 void oglShaderProgram::updateUniformBuffer(U32 id, U32 index, const void* data, U32 dataSize)
 {
 	glBindBuffer(GL_UNIFORM_BUFFER, id);
-	glBufferSubData(GL_UNIFORM_BUFFER, index, dataSize, data);
+	glBufferSubData(GL_UNIFORM_BUFFER, index * dataSize, dataSize, data);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }

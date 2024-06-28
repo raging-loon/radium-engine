@@ -77,11 +77,21 @@ int main(int argc, char** argv)
 
 	test->show();
 	float vertices[] = {
-	 0.5f,  0.5f, 0.0f,  // top right
-	 0.5f, -0.5f, 0.0f,  // bottom right
-	-0.5f, -0.5f, 0.0f,  // bottom left
-	-0.5f,  0.5f, 0.0f   // top left 
+	 -0.75f,  0.5f, 0.0f,  // Top-left
+	-0.25f,  0.5f, 0.0f,  // Top-right
+	-0.25f, -0.5f, 0.0f,  // Bottom-right
+	-0.75f, -0.5f, 0.0f   // Bottom-left
 	};
+
+	float vertices2[] =
+	{
+
+	 0.25f,  0.5f, 0.0f,  // Top-left
+	 0.75f,  0.5f, 0.0f,  // Top-right
+	 0.75f, -0.5f, 0.0f,  // Bottom-right
+	 0.25f, -0.5f, 0.0f
+	};
+
 	unsigned int indices[] = {  // note that we start from 0!
 		0, 1, 3,   // first triangle
 		1, 2, 3    // second triangle
@@ -102,14 +112,22 @@ int main(int argc, char** argv)
 		.data = &indices
 	};
 
-	auto* vbuffer = rd->createBuffer(vbd);
-	auto* ibuffer = rd->createBuffer(ibd);
 
+
+	auto* vbuffer1 = rd->createBuffer(vbd);
+	auto* ibuffer1 = rd->createBuffer(ibd);
+
+	
+	vbd.data = vertices2;
+
+	auto* vbuffer2 = rd->createBuffer(vbd);
 
 
 	float color[] = { 0.5, 0.0, 0.0, 1.0 };
-	auto id = s->createUniformBuffer(1, sizeof(float) * 4, 2);
+	float color2[] = { 0.0, 0.0, 0.5, 1.0 };
+	auto id = s->createUniformBuffer(10, sizeof(float) * 4, 2);
 	s->updateUniformBuffer(id, 0, color, sizeof(color));
+	s->updateUniformBuffer(id, 1, color2, sizeof(color2));
 
 	while (!(GetKeyState(VK_ESCAPE) & 0x8000))
 	{
@@ -117,18 +135,29 @@ int main(int argc, char** argv)
 
 
 		rd->clear();
-		((oglBuffer*)vbuffer)->bindVAO();
-		((oglBuffer*)vbuffer)->bind();
-		((oglBuffer*)ibuffer)->bind();
 		glUseProgram(((oglShaderProgram*)s)->m_shaderID);
 		
+		((oglBuffer*)vbuffer1)->bindVAO();
+		((oglBuffer*)vbuffer1)->bind();
+		((oglBuffer*)ibuffer1)->bind();
+		glBindBufferRange(GL_UNIFORM_BUFFER, 2, id, 0, sizeof(color));
+
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
+
+		((oglBuffer*)vbuffer2)->bindVAO();
+		((oglBuffer*)vbuffer2)->bind();
+		((oglBuffer*)ibuffer1)->bind();
+		
+		glBindBufferRange(GL_UNIFORM_BUFFER, 2, id, sizeof(color2), sizeof(color2));
+
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
 
 		rd->swapBuffers();
 	}
 
-	vbuffer->destroy();
-	ibuffer->destroy();
+	vbuffer1->destroy();
+	vbuffer2->destroy();
+	ibuffer1->destroy();
 	delete s;
 	test->destroy();
 
