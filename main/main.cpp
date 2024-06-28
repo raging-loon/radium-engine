@@ -7,7 +7,8 @@
 #include "graphics/IShaderProgram.h"
 #include "platform/win32/Win32Display.h"
 #include "drivers/opengl/oglRenderDriver.h"
-
+#include "drivers/opengl/oglShaderProgram.h"
+#include "math/math.h"
 
 #include <cstdio>
 #include <unordered_map>
@@ -105,20 +106,30 @@ int main(int argc, char** argv)
 	auto* ibuffer = rd->createBuffer(ibd);
 
 
+
+	float color[] = { 0.5, 0.0, 0.0, 1.0 };
+	auto id = s->createUniformBuffer(1, sizeof(float) * 4, 2);
+	s->updateUniformBuffer(id, 0, color, sizeof(color));
+
 	while (!(GetKeyState(VK_ESCAPE) & 0x8000))
 	{
 		test->processEvents();
+
+
 		rd->clear();
-		glUseProgram(s);
 		((oglBuffer*)vbuffer)->bindVAO();
 		((oglBuffer*)vbuffer)->bind();
 		((oglBuffer*)ibuffer)->bind();
+		glUseProgram(((oglShaderProgram*)s)->m_shaderID);
+		
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
+
 		rd->swapBuffers();
 	}
 
 	vbuffer->destroy();
 	ibuffer->destroy();
+	delete s;
 	test->destroy();
 
 	return 0;

@@ -5,6 +5,7 @@
 
 #include "oglRenderDriver.h"
 #include "oglShaderFactory.h"
+#include "oglShaderProgram.h"
 
 #include <GL/glew.h>
 #include <GL/GL.h>
@@ -60,9 +61,13 @@ IBuffer* oglRenderDriver::createBuffer(BufferDescription& bd)
 	return m_bufferFactory.createBuffer(bd);
 }
 
-ShaderID oglRenderDriver::createShader(ShaderProgramDescription& spd)
+IShaderProgram* oglRenderDriver::createShader(ShaderProgramDescription& spd)
 {
-	return oglShaderFactory::createShaderProgram(spd);
+
+	auto sid = oglShaderFactory::createShaderProgram(spd);
+	
+	return new oglShaderProgram(sid);
+	
 }
 
 void oglRenderDriver::setClearColor(float r, float g, float b, float a)

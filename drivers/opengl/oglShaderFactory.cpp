@@ -61,6 +61,8 @@ GLuint oglShaderFactory::createShaderProgram(ShaderProgramDescription& spd)
     return id;
 }
 
+
+
 char* oglShaderFactory::_int_readShader(const char* filename, U32& size)
 {
     // TODO: Move most of this into the FS abstraction layer
@@ -121,6 +123,8 @@ GLuint oglShaderFactory::_int_linkShaderProgram(GLuint shaders[], U8 numShaders)
 
     return shaderProgramID;
 }
+
+
 
 GLuint oglShaderFactory::createShader(ShaderDescription& sd, const char* source, U32 size)
 {

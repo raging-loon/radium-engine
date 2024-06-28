@@ -28,7 +28,7 @@ public:
 
 
 	virtual IBuffer* createBuffer(BufferDescription& bd) = 0;
-	virtual ShaderID createShader(ShaderProgramDescription& sd) = 0;
+	virtual IShaderProgram* createShader(ShaderProgramDescription& sd) = 0;
 
 
 	virtual void setClearColor(float r, float g, float b, float a) = 0;

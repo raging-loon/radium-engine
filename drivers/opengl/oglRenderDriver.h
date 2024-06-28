@@ -48,7 +48,7 @@ public:
 	void terminate() override;
 
 	IBuffer* createBuffer(BufferDescription& bd) override;
-	ShaderID createShader(ShaderProgramDescription& spd) override;
+	IShaderProgram* createShader(ShaderProgramDescription& spd) override;
 
 	void setClearColor(float r, float g, float b, float a) override;
 	

@@ -3,14 +3,30 @@
 
 layout (location = 0) in vec3 iPosition;
 
+layout (std140, binding=2) uniform perObject
+{
+//	mat4 modelViewProjection;
+//	mat4 model;
+	vec4 poColor;	// 16
+};
+
+//
+//layout (std140) uniform perFrame
+//{
+//	vec3 cameraLocation;
+//};
+
 out vec4 color;
 
 void main()
 {
-	gl_Position = vec4(iPosition, 1.0f);
-	color = vec4(0.5, 0.0, 0.0, 1.0);
+	
+	gl_Position = vec4(iPosition, 1.0f);// * modelViewProjection;
+	color = poColor;
 }
 #endsection
+
+
 #section PS
 
 #version 460

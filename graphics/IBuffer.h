@@ -24,7 +24,11 @@ struct BufferDescription
 	size_t size		= 0;
 	/* number of elements */
 	size_t count	= 0;
+
+	/* Optional Data */
+
 	void* data		= nullptr;
+
 };
 
 
