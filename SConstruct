@@ -95,6 +95,7 @@ else:
 SConscript("platform/SCsub")
 
 SConscript("drivers/SCsub")
+SConscript("scene/SCsub")
 	
 target = env.Program(target='build/radium-engine', source=env.source_files)
 

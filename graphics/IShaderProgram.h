@@ -65,7 +65,7 @@ public:
 	
 	//virtual void setPerPassUniformBuffer(U32 id);
 	virtual void setPerObjectUniformBuffer(U32 id, U32 size) = 0;
-private:
+	virtual void setPerPassUniformBuffer(U32 id, U32 size) = 0;
 
 };
 

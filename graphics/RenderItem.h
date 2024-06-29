@@ -3,6 +3,7 @@
 
 #include "graphics/IBuffer.h"
 #include "core/types.h"
+#include "math/math.h"
 namespace radium
 {
 
@@ -14,6 +15,17 @@ struct RenderItem
 
 	U32 uniformIndex;
 	
+};
+
+struct TestPerObjectData
+{
+	math::Mat4x4 worldViewProj;
+	math::Vec4 color;
+};
+
+struct TestPerPassData
+{
+	math::Vec3 cameraPosition;
 };
 
 

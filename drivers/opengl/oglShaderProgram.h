@@ -23,11 +23,21 @@ public:
 		m_perObjectItemSize = size;
 	}
 
+	void setPerPassUniformBuffer(U32 id, U32 size) override
+	{
+		m_perPassUB = id;
+		m_perPassItemSize = size;
+	}
+
 	ShaderID m_shaderID;
 private:
 
 	U32 m_perObjectUB;
 	U32 m_perObjectItemSize;
+
+
+	U32 m_perPassUB;
+	U32 m_perPassItemSize;
 };
 
 } // radium

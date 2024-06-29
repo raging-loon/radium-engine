@@ -31,6 +31,12 @@ struct Mat4x4
 		  m30(v30), m31(v31), m32(v32), m33(v33)
 	{	}
 	
+	Mat4x4(const Vec3& m) : Mat4x4()
+	{
+		m03 = m.x;
+		m13 = m.y;
+		m23 = m.z;
+	}
 	Mat4x4& operator=(const Mat4x4& m)
 	{
 

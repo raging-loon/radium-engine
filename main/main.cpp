@@ -10,6 +10,8 @@
 #include "drivers/opengl/oglShaderProgram.h"
 #include "math/math.h"
 
+#include "scene/component/Camera.h"
+
 #include <cstdio>
 #include <unordered_map>
 #include <string.h>
@@ -122,14 +124,35 @@ int main(int argc, char** argv)
 
 	auto* vbuffer2 = rd->createBuffer(vbd);
 
-
+	
 	float color[] = { 0.5, 0.0, 0.0, 1.0 };
 	float color2[] = { 0.0, 0.0, 0.5, 1.0 };
-	auto id = s->createUniformBuffer(10, sizeof(float) * 4, 2);
-	s->setPerObjectUniformBuffer(id, sizeof(color));
+	math::Vec3 loc1(0, 0, 0);
+	math::Vec3 loc2(10, 10, 1);
+	
+	TestPerObjectData t1 =
+	{
+		.color = { 0.5, 0.0, 0.0, 1.0 }
+	};
 
-	s->updateUniformBuffer(id, 0, color, sizeof(color));
-	s->updateUniformBuffer(id, 1, color2, sizeof(color2));
+	TestPerObjectData t2 =
+	{
+		.color = {0.0, 0.0, 0.5, 1.0f}
+	};
+
+	Camera mainCamera(90, 800 / 600, 0.1f, 1000.0f);
+
+	auto perObjectUB = s->createUniformBuffer(2, sizeof(TestPerObjectData), 2);
+	s->setPerObjectUniformBuffer(perObjectUB, sizeof(TestPerObjectData));
+
+	s->updateUniformBuffer(perObjectUB, 0, &t1, sizeof(TestPerObjectData));
+	s->updateUniformBuffer(perObjectUB, 1, &t2, sizeof(TestPerObjectData));
+
+	auto perPassUB = s->createUniformBuffer(1, sizeof(TestPerPassData), 3);
+	s->setPerPassUniformBuffer(perPassUB, sizeof(TestPerPassData));
+
+	s->updateUniformBuffer(perPassUB, 0, &mainCamera.position, sizeof(TestPerPassData));
+
 
 	RenderItem list[] =
 	{
@@ -141,13 +164,25 @@ int main(int argc, char** argv)
 		}
 	};
 
+	
+
 	while (!(GetKeyState(VK_ESCAPE) & 0x8000))
 	{
 		test->processEvents();
+		
 
+
+		if (GetKeyState(VK_UP) & 0x8000)
+			mainCamera.position.z += 0.1;
 
 		rd->clear();
-		
+
+
+		t1.worldViewProj =  mainCamera.getProjectionMatrix() * mainCamera.getViewMatrix() * math::Mat4x4(loc1);
+		t2.worldViewProj =  mainCamera.getProjectionMatrix() * mainCamera.getViewMatrix() * math::Mat4x4(loc2);
+
+		s->updateUniformBuffer(perObjectUB, 0, &t1, sizeof(TestPerObjectData));
+		s->updateUniformBuffer(perObjectUB, 1, &t2, sizeof(TestPerObjectData));
 		((oglRenderDriver*)rd)->draw(s, list, 2);
 
 		rd->swapBuffers();
