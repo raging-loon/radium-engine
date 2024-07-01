@@ -11,11 +11,6 @@ struct ShaderDescription;
 using ShaderID = U32;
 
 
-struct ShaderUniformBufferDescription
-{
-	
-};
-
 
 /**
  * IShaderProgram

@@ -9,7 +9,6 @@ using radium::U32;
 
 U32 oglShaderProgram::createUniformBuffer(U32 count, U32 size, U32 binding)
 {
-	glUseProgram(m_shaderID);
 
 	U32 ubo;
 
@@ -26,7 +25,6 @@ U32 oglShaderProgram::createUniformBuffer(U32 count, U32 size, U32 binding)
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
 
-	glUseProgram(0);
 
 	return ubo;
 }

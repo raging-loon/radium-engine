@@ -25,7 +25,9 @@ public:
 	buffer_t getType() const	{ return m_type; }
 
 	/* size = count * sizeof(datum) */
-	void copyData(unsigned int size, void* data);
+	void copyData(unsigned int size, void* data) override;
+	void copySubData(unsigned int size, void* data, unsigned int offset = 0) override;
+
 
 	/* opengl specific bind functions */
 	void bind();

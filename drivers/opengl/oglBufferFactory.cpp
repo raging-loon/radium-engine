@@ -26,11 +26,14 @@ oglBuffer* oglBufferFactory::createBuffer(BufferDescription& bd)
 			bufCreateStatus = createIndexBuffer(bd, id);
 			target = GL_ELEMENT_ARRAY_BUFFER;
 			break;
-
+		
+		case buffer_t::UNIFORM:
+			break;
 		default:
 			RAD_ENGINE_ERROR("[GL] Failed to create buffer. Unknown type: {}", (int)bd.type);
 			return nullptr;
 	}
+
 	assert(id != GL_INVALID_VALUE);
 	assert(target != GL_INVALID_ENUM);
 	oglBuffer* nbuf = new oglBuffer(bd.count, id, target, bd.type, vaoID);
@@ -62,6 +65,18 @@ int oglBufferFactory::createVertexBuffer(BufferDescription& bd, GLuint& id, GLui
 	// position (vec3)
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,  sizeof(float) * 3, (void*)0);
 	glEnableVertexAttribArray(0);
+
+	return 0;
+}
+int oglBufferFactory::createUniformBuffer(BufferDescription& bd, GLuint& id, GLuint binding)
+{
+	glGenBuffers(1, &id);
+
+	glBindBuffer(GL_UNIFORM_BUFFER, id);
+
+	glBufferData(GL_UNIFORM_BUFFER, bd.size * bd.count, nullptr, GL_STATIC_DRAW);
+
+	glBindBufferBase(GL_UNIFORM_BUFFER, binding, id);
 
 	return 0;
 }

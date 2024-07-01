@@ -14,11 +14,11 @@ layout (std140, binding=3) uniform perPass
 {
 	vec3 cameraPosition;
 };
-//
-//layout (std140) uniform perFrame
-//{
-//	vec3 cameraLocation;
-//};
+
+layout (std140, binding=4) uniform testData
+{
+	float multiplier;
+};
 
 out vec4 color;
 
@@ -27,7 +27,11 @@ void main()
 
 	gl_Position =  vec4(iPosition , 1.0f) * modelViewProjection;
 
-	color = poColor;
+	vec4 temp = poColor;
+
+	temp *= multiplier;
+
+	color = temp;
 }
 #endsection
 

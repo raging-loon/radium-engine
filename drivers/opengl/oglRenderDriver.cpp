@@ -65,7 +65,8 @@ IShaderProgram* oglRenderDriver::createShader(ShaderProgramDescription& spd)
 {
 
 	auto sid = oglShaderFactory::createShaderProgram(spd);
-	
+	if (sid == -1)
+		return nullptr;
 	return new oglShaderProgram(sid);
 	
 }
@@ -74,6 +75,8 @@ void oglRenderDriver::draw(IShaderProgram* shader, RenderItem* drawList, U32 dlS
 {
 	auto sp = ((oglShaderProgram*)shader);
 	glUseProgram(((oglShaderProgram*)shader)->m_shaderID);
+	
+	glBindBufferRange(GL_UNIFORM_BUFFER, 3, sp->m_perPassUB, 0, sp->m_perPassItemSize);
 
 	for (U32 i = 0; i < dlSize; i++)
 	{

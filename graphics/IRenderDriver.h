@@ -3,6 +3,8 @@
 
 #include "RenderDriverConfig.h"
 #include "IShaderProgram.h"
+#include "PassConstants.h"
+
 namespace radium
 {
 
@@ -32,12 +34,14 @@ public:
 
 
 	virtual void setClearColor(float r, float g, float b, float a) = 0;
-	
 	virtual void setViewport(int x, int y, int w, int h) = 0;
-	
 	virtual void swapBuffers() = 0;
 	
 	virtual void clear() = 0;
+
+	virtual void initPassConstantBuffer() = 0;
+	
+	virtual void updatePassConstantBuffer(PassConstants* p) = 0;
 
 private:
 

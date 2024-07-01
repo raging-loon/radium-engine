@@ -76,6 +76,7 @@ int radium::oglRenderDriver::init(RenderDriverConfig& rdc)
 	};
 
 	// load extension
+	//((BOOL(WINAPI*)(int))wglGetProcAddress("wglSwapIntervalEXT"))(1);
 	auto* wglCreateContextAttribsARB = (PFNWGLCREATECONTEXTATTRIBSARBPROC)wglGetProcAddress("wglCreateContextAttribsARB");
 	if (!wglCreateContextAttribsARB)
 	{

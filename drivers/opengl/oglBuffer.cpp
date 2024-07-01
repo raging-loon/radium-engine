@@ -56,3 +56,16 @@ void oglBuffer::copyData(unsigned int size, void* data)
 		GL_STATIC_DRAW
 	);
 }
+
+void oglBuffer::copySubData(unsigned int size, void* data, unsigned int offset)
+{
+	assert(data != nullptr);
+	
+	glBufferSubData(
+		m_target,
+		offset,
+		size,
+		data
+	);
+
+}

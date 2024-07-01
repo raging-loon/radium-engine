@@ -18,7 +18,7 @@ private:
 	int createIndexBuffer(BufferDescription& bd, GLuint& id);
 	int createVertexBuffer(BufferDescription& bd, GLuint& id, GLuint& vaoID);
 
-
+	int createUniformBuffer(BufferDescription& bd, GLuint& id, GLuint binding);
 };
 
 } // radium

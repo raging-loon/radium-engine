@@ -28,7 +28,7 @@ struct BufferDescription
 	/* Optional Data */
 
 	void* data		= nullptr;
-
+	U32	  binding   = 0;
 };
 
 
@@ -43,8 +43,12 @@ public:
 
 	virtual void destroy() = 0;
 	virtual buffer_t getType() = 0;
-	
+	virtual void copyData(unsigned int size, void* data) = 0;
+	virtual void copySubData(unsigned int size, void* data, unsigned int offset = 0) = 0;
+
 };
+
+
 
 } // radium
 

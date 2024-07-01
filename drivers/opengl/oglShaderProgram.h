@@ -32,13 +32,13 @@ public:
 	ShaderID m_shaderID;
 private:
 
-	U32 m_perObjectUB;
+	U32 m_perObjectUB; 
 	U32 m_perObjectItemSize;
 
 
 	U32 m_perPassUB;
 	U32 m_perPassItemSize;
-};
+}; 
 
 } // radium
 
