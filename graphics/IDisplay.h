@@ -13,6 +13,8 @@ class IDisplay
 {
 public:
 
+	static IDisplay* createDisplay();
+
 	virtual int create(int w, int h, bool windowed, const char* title) = 0;
 	virtual void destroy() = 0;
 	virtual void show() = 0;

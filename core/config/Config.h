@@ -41,6 +41,8 @@ private:
 	bool readConfig(char* cfgBuf, size_t sz);
 	/* parse potential key-value pairs*/
 	bool parseLine(char* line);
+	bool m_configHasBeenLoaded{ false };
+
 	std::unordered_map < std::string , Variant > m_kvcfgmap;
 };
 

@@ -4,6 +4,7 @@
 #include "graphics/IShaderProgram.h"
 #include <core/types.h>
 #include "math/math.h"
+#include <GL/glew.h>
 #include <unordered_map>
 
 namespace radium

@@ -38,6 +38,11 @@ Config::~Config()
 
 Variant& Config::operator[](std::string k)
 {
+#ifdef RAD_DEBUG
+	if (m_configHasBeenLoaded && m_kvcfgmap.find(k) == m_kvcfgmap.end())
+		RAD_ENGINE_WARN("[CONFIG] Key '{}' does not exist", k);
+#endif // RAD_DEBUG
+
 	return m_kvcfgmap[k];
 }
 
@@ -71,6 +76,8 @@ bool Config::loadConfig(const char* filename )
 
 	fclose(fp);
 	delete[] filebuffer;
+	
+	m_configHasBeenLoaded = true;
 
 	return res;
 }

@@ -44,7 +44,7 @@ public:
 	 * Returns  - (OpenGL) Buffer ID
 	 *			- (DirectX) Buffer Index (to array of `ID3D12Resource`s
 	*/
-	virtual U32 createUniformBuffer(U32 count, U32 size, U32 binding = 0) = 0;
+	//virtual U32 createUniformBuffer(U32 count, U32 size, U32 binding = 0) = 0;
 
 	/**
 	 * updateUniformBuffer
@@ -56,11 +56,8 @@ public:
 	 *			- data  - Data to copy. Must be non-null
 	 *			- dataSize - sizeof whatever data you are copying
 	*/
-	virtual void updateUniformBuffer(U32 id, U32 index, const void* data, U32 dataSize) = 0;
-	
-	//virtual void setPerPassUniformBuffer(U32 id);
-	virtual void setPerObjectUniformBuffer(U32 id, U32 size) = 0;
-	virtual void setPerPassUniformBuffer(U32 id, U32 size) = 0;
+	//virtual void updateUniformBuffer(U32 id, U32 index, const void* data, U32 dataSize) = 0;
+
 
 	virtual void setInt(const char* name, U32 v) = 0;
 	virtual void setFloat(const char* name, float v) = 0;

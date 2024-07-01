@@ -86,16 +86,18 @@ Export("env")
 SConscript("core/SCsub")
 SConscript("math/SCsub")
 
+SConscript("graphics/SCsub")
+
+SConscript("drivers/SCsub")
+SConscript("platform/SCsub")
+SConscript("scene/SCsub")
+
 if not env["tests"]:
 	SConscript("main/SCsub")
 else:
 	env.Append(CPPDEFINES=["RAD_ENABLE_TESTS"])
 	SConscript("tests/unit/SCsub")
 
-SConscript("platform/SCsub")
-
-SConscript("drivers/SCsub")
-SConscript("scene/SCsub")
 	
 target = env.Program(target='build/radium-engine', source=env.source_files)
 
