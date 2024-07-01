@@ -30,8 +30,8 @@ public:
 
 	
 
-private:
 	ShaderID m_shaderID;
+private:
 
 	std::unordered_map<const char*, GLuint> m_uniformMap = {};
 }; 

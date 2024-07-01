@@ -49,7 +49,7 @@ private:
 	
 	GLuint m_bufferID;
 
-	union
+	union 
 	{
 		GLuint m_vertexArrayObject;
 		GLuint m_uboBinding;

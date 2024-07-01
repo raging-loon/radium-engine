@@ -84,7 +84,7 @@ void oglBuffer::copyData(unsigned int size, void* data)
 void oglBuffer::copySubData(unsigned int size, void* data, unsigned int offset)
 {
 	assert(data != nullptr);
-	
+	bind();
 	glBufferSubData(
 		m_target,
 		offset,
