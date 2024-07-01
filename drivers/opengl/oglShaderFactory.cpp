@@ -129,7 +129,7 @@ GLuint oglShaderFactory::_int_linkShaderProgram(GLuint shaders[], U8 numShaders)
 GLuint oglShaderFactory::createShader(ShaderDescription& sd, const char* source, U32 size)
 {
     // TODO: figure out if this neds to be made thread safe
-    static char tempShaderBuffer[1024];
+    static char tempShaderBuffer[2048];
     static GLenum spTypeToGlType[] = {GL_INVALID_VALUE, GL_VERTEX_SHADER, GL_FRAGMENT_SHADER};
 
     // make sure it is in the array and not and invalid value

@@ -3,6 +3,9 @@
 
 #include "graphics/IShaderProgram.h"
 #include <core/types.h>
+#include "math/math.h"
+#include <unordered_map>
+
 namespace radium
 {
 
@@ -13,31 +16,23 @@ class oglShaderProgram : public IShaderProgram
 public:
 	oglShaderProgram(ShaderID id) : m_shaderID(id) {}
 
-	U32 createUniformBuffer(U32 count, U32 size, U32 binding = 0) override;
+	bool addParameter(const char* name);
+
+	void setInt(const char* name, U32 v) override;
+	void setFloat(const char* name, float v) override;
+
+	void setVec3(const char* name, math::Vec3 v) override;
+	void setVec3(const char* name, float v0, float v1, float v2) override;
+
+	void setVec4(const char* name, math::Vec4 v) override;
+	void setVec4(const char* name, float v0, float v1, float v2, float v3) override;
+
 	
-	void updateUniformBuffer(U32 id, U32 index, const void* data, U32 dataSize) override;
 
-	void setPerObjectUniformBuffer(U32 id, U32 size) override 
-	{
-		m_perObjectUB = id; 
-		m_perObjectItemSize = size;
-	}
-
-	void setPerPassUniformBuffer(U32 id, U32 size) override
-	{
-		m_perPassUB = id;
-		m_perPassItemSize = size;
-	}
-
-	ShaderID m_shaderID;
 private:
+	ShaderID m_shaderID;
 
-	U32 m_perObjectUB; 
-	U32 m_perObjectItemSize;
-
-
-	U32 m_perPassUB;
-	U32 m_perPassItemSize;
+	std::unordered_map<const char*, GLuint> m_uniformMap = {};
 }; 
 
 } // radium

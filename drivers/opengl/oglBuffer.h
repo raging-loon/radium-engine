@@ -15,7 +15,7 @@ class oglBuffer : public IBuffer
 	friend class oglRenderDriver;
 public:
 
-	oglBuffer(U32 count, GLuint bufID, GLenum target, buffer_t type, GLuint vaoID = GL_INVALID_VALUE);
+	oglBuffer(BufferDescription& bd, GLenum target, GLuint bufferID, GLuint m_VAO = GL_INVALID_VALUE);
 
 public:
 
@@ -29,21 +29,32 @@ public:
 	void copySubData(unsigned int size, void* data, unsigned int offset = 0) override;
 
 
-	/* opengl specific bind functions */
+	/* Bind m_bufferID */
 	void bind();
+	/* Bind m_vertexArrayObject */
 	void bindVAO();
+
 	void unbind();
 	void unbindVAO();
 
+	/* Bind m_bufferID at m_uboBining */
+	void bindRange(U32 index);
 private:
 
-	U32 count;
+	U32 m_count;
+	U32 m_size;
 	buffer_t m_type;
-	GLuint m_bufferID;
-	/* used if this is vertex buffer */
-	GLuint m_vertexArrayObject;
-
+	
 	GLenum m_target;
+	
+	GLuint m_bufferID;
+
+	union
+	{
+		GLuint m_vertexArrayObject;
+		GLuint m_uboBinding;
+	};
+
 };
 
 } // radium

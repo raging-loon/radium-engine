@@ -40,7 +40,6 @@ public:
 	virtual void clear() = 0;
 
 	virtual void initPassConstantBuffer() = 0;
-	
 	virtual void updatePassConstantBuffer(PassConstants* p) = 0;
 
 private:

@@ -28,6 +28,8 @@ oglBuffer* oglBufferFactory::createBuffer(BufferDescription& bd)
 			break;
 		
 		case buffer_t::UNIFORM:
+			createUniformBuffer(bd, id, bd.binding);
+			target = GL_UNIFORM_BUFFER;
 			break;
 		default:
 			RAD_ENGINE_ERROR("[GL] Failed to create buffer. Unknown type: {}", (int)bd.type);
@@ -36,9 +38,10 @@ oglBuffer* oglBufferFactory::createBuffer(BufferDescription& bd)
 
 	assert(id != GL_INVALID_VALUE);
 	assert(target != GL_INVALID_ENUM);
-	oglBuffer* nbuf = new oglBuffer(bd.count, id, target, bd.type, vaoID);
+	oglBuffer* nbuf = new oglBuffer(bd, target, id, vaoID);
 
-	nbuf->copyData(bd.count * bd.size, bd.data);
+	if(bd.data)
+		nbuf->copyData(bd.count * bd.size, bd.data);
 	
 	nbuf->unbind();
 	

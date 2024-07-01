@@ -10,7 +10,7 @@ layout (std140, binding=2) uniform perObject
 	vec4 poColor;	// 16
 };
 
-layout (std140, binding=3) uniform perPass
+layout (std140, binding=1) uniform perPass
 {
 	vec3 cameraPosition;
 };

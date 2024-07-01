@@ -48,6 +48,9 @@ public:
 	 */
 	int init(RenderDriverConfig& rdc) override;
 	void terminate() override;
+	void swapBuffers() override;
+
+	// end of platform specific functions
 
 	IBuffer* createBuffer(BufferDescription& bd) override;
 	IShaderProgram* createShader(ShaderProgramDescription& spd) override;
@@ -55,12 +58,11 @@ public:
 	void draw(IShaderProgram* shader, RenderItem* drawList, U32 dlSize);
 
 	void setClearColor(float r, float g, float b, float a) override;
-	
 	void setViewport(int x, int y, int w, int h) override;
-	
-	void swapBuffers() override;
-	
 	void clear() override;
+
+	void initPassConstantBuffer() override;
+	void updatePassConstantBuffer(PassConstants* p) override;
 
 
 public:
@@ -94,9 +96,13 @@ private:
 
 	IShaderProgram* opaqueShader;
 
+	// TODO: get rid of this and make all oglBufferFactory's functions static
 	oglBufferFactory m_bufferFactory;
 
 	RenderDriverConfig m_rdc;
+
+	/* Per-Pass/Per-Frame buffer for GPU traffic minimization */
+	oglBuffer* m_perPassConstantBuffer;
 };
 
 

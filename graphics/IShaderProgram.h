@@ -2,7 +2,7 @@
 #define GRAPHICS_ISHADER_PROGRAM_H_
 
 #include "core/types.h"
-
+#include "math/math.h"
 namespace radium
 {
 
@@ -61,6 +61,17 @@ public:
 	//virtual void setPerPassUniformBuffer(U32 id);
 	virtual void setPerObjectUniformBuffer(U32 id, U32 size) = 0;
 	virtual void setPerPassUniformBuffer(U32 id, U32 size) = 0;
+
+	virtual void setInt(const char* name, U32 v) = 0;
+	virtual void setFloat(const char* name, float v) = 0;
+	
+	virtual void setVec3(const char* name, math::Vec3 v) = 0;
+	virtual void setVec3(const char* name, float v0, float v1, float v2) = 0;
+	
+	virtual void setVec4(const char* name, math::Vec4 v) = 0;
+	virtual void setVec4(const char* name, float v0, float v1, float v2, float v3) = 0;
+
+
 
 };
 

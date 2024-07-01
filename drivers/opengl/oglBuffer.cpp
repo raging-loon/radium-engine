@@ -11,10 +11,17 @@ using radium::buffer_t;
 using radium::byte;
 
 
-
-oglBuffer::oglBuffer(U32 count, GLuint bufID, GLenum target, buffer_t type, GLuint vaoID)
-	: count(count), m_type(type), m_bufferID(bufID), m_vertexArrayObject(vaoID), m_target(target)
+oglBuffer::oglBuffer(BufferDescription& bd, GLenum target, GLuint bufferID, GLuint m_VAO)
+	: m_count(bd.count), m_size(bd.size), m_type(bd.type), 
+	  m_target(target), m_bufferID(bufferID)
 {
+	// This is a vertex buffer
+	if (m_VAO != GL_INVALID_VALUE)
+		m_vertexArrayObject = m_VAO;
+	else 
+		// this is a uniform buffer or this value won't be used 
+		m_uboBinding = bd.binding;
+
 }
 
 void oglBuffer::destroy()
@@ -43,6 +50,23 @@ void oglBuffer::unbindVAO()
 {
 	glBindVertexArray(0);
 
+}
+
+void oglBuffer::bindRange(U32 index)
+{
+	
+	assert(m_target == GL_UNIFORM_BUFFER ||
+		   m_target == GL_SHADER_STORAGE_BUFFER ||
+		   m_target == GL_ATOMIC_COUNTER_BUFFER ||
+		   m_target == GL_TRANSFORM_FEEDBACK_BUFFER);
+
+	glBindBufferRange(
+		m_target,
+		m_uboBinding,
+		m_bufferID,
+		index * m_size,
+		m_size
+	);
 }
 
 void oglBuffer::copyData(unsigned int size, void* data) 

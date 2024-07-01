@@ -53,6 +53,8 @@ int oglRenderDriver::_int_init()
 
 void oglRenderDriver::_int_terminate()
 {
+	if (m_perPassConstantBuffer)
+		delete m_perPassConstantBuffer;
 }
 
 
@@ -107,4 +109,27 @@ void oglRenderDriver::setViewport(int x, int y, int w, int h)
 void oglRenderDriver::clear()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void oglRenderDriver::initPassConstantBuffer()
+{
+	if (m_perPassConstantBuffer) 
+		return;
+
+	BufferDescription pcbDesc =
+	{
+		.type = buffer_t::CONSTANT,
+		.size = sizeof(PassConstants),
+		.count = 1,
+		.data = nullptr,
+		.binding = 1
+	};
+
+	m_perPassConstantBuffer = m_bufferFactory.createBuffer(pcbDesc);
+}
+
+void oglRenderDriver::updatePassConstantBuffer(PassConstants* p)
+{
+	assert(m_perPassConstantBuffer && p);
+	m_perPassConstantBuffer->copySubData(sizeof(PassConstants), p);
 }
