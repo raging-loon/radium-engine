@@ -37,9 +37,9 @@ float getMouseY()
 {
 	return getMousePosition().y;
 }
-bool getKeyComboPressed(KeyCode kc1, KeyCode...)
-{
-
-}
+//bool getKeyComboPressed(KeyCode kc1, KeyCode...)
+//{
+//
+//}
 
 } // radium::Input

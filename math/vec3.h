@@ -104,7 +104,18 @@ struct Vec3
 		}
 	}
 
+	static Vec3 normalize(Vec3 in)
+	{
+		in.normalize();
+		return in;
+	}
+
 	float dot(const Vec3& v) const { return x * v.x + y * v.y + z * v.z; }
+
+	static float dot(Vec3& v1, Vec3& v2)
+	{
+		return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+	}
 
 	Vec3  cross(const Vec3& v) const
 	{
@@ -112,6 +123,15 @@ struct Vec3
 			y * v.z - z * v.y,
 			z * v.x - x * v.z,
 			x * v.y - y * v.x
+		};
+	}
+
+	static Vec3 cross(Vec3& v1, Vec3& v2)
+	{
+		return {
+			v1.y * v2.z - v1.z * v2.y,
+			v1.z * v2.x - v1.x * v2.z,
+			v1.x * v2.y - v1.y * v2.x
 		};
 	}
 
@@ -127,7 +147,7 @@ struct Vec3
 	static const Vec3 FORWARD;
 	static const Vec3 BACK;
 	static const Vec3 ONE;
-
+	
 };
 
 

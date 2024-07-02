@@ -23,7 +23,7 @@ enum class RenderAPI
  * Interface through which communication with graphics APIs
  * is commenced
 */
-class IRenderDriver
+class __declspec(novtable) IRenderDriver
 {
 public:
 
@@ -32,6 +32,7 @@ public:
 	virtual int init(RenderDriverConfig& rdc) = 0;
 	virtual void terminate() = 0;
 
+	
 
 	virtual IBuffer* createBuffer(BufferDescription& bd) = 0;
 	virtual IShaderProgram* createShader(ShaderProgramDescription& sd) = 0;
@@ -43,8 +44,8 @@ public:
 	
 	virtual void clear() = 0;
 
-
 	virtual ~IRenderDriver() {}
+
 
 private:
 

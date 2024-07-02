@@ -8,7 +8,9 @@
 #include "graphics/UniformData.h"
 #include "scene/component/Camera.h"
 #include "core/input/Input.h"
-
+#include "scene/resource/Mesh.h"
+#include <fstream>
+#include <filesystem>
 using namespace radium;
 
 int main(int argc, char** argv)
@@ -88,40 +90,16 @@ int main(int argc, char** argv)
 	IBuffer* sceneDataBuffer =  rd->createBuffer(sdbuf);
 	IBuffer* objectDataBuffer = rd->createBuffer(objbuf);
 
-	float vertices2[] =
-	{
+	std::ifstream testload("tests/res/monke.mdl", std::ios::binary);
+	auto size = std::filesystem::file_size("tests/res/monke.mdl");
+	byte* buffer = new byte[size + 1];
 
-	 0.25f,  0.5f, 0.0f,  // Top-left
-	 0.75f,  0.5f, 0.0f,  // Top-right
-	 0.75f, -0.5f, 0.0f,  // Bottom-right
-	 0.25f, -0.5f, 0.0f
-	};
+	testload.read((char*)buffer, size);
 
-	unsigned int indices[] = {
+	Mesh testmesh;
+	
+	testmesh.load(buffer, size, *rd);
 
-		0, 1, 3,   // first triangle
-		1, 2, 3    // second triangle
-	};
-
-
-	BufferDescription vbd = {
-		.type = buffer_t::VERTEX,
-		.size = sizeof(float),
-		.count = 12,
-		.data = &vertices2
-	};
-
-	BufferDescription ibd = {
-		.type = buffer_t::INDEX,
-		.size = sizeof(unsigned int),
-		.count = 6,
-		.data = &indices
-	};
-
-
-
-	auto* vbuffer1 = rd->createBuffer(vbd);
-	auto* ibuffer1 = rd->createBuffer(ibd);
 
 	ObjectData test =
 	{
@@ -130,7 +108,7 @@ int main(int argc, char** argv)
 
 	math::Vec3 testLoc = { 0, 0, 0};
 
-	Camera mainCamera(90, 800 / 600, 0.1f, 1000.0f);
+	Camera mainCamera(45, (float)((float)800 /(float) 600), 0.1f, 100.0f);
 	window->show();
 
 	while (!Input::isKeyPressed(KeyCodes::ESCAPE))
@@ -151,7 +129,10 @@ int main(int argc, char** argv)
 		test.worldViewProjection = mainCamera.getProjectionMatrix() * 
 								   mainCamera.getViewMatrix() * 
 								   math::Mat4x4(testLoc);
+
+
 		rd->clear();
+		glEnable(GL_DEPTH_TEST);
 		glUseProgram(s->m_shaderID);
 		objectDataBuffer->copySubData(sizeof(ObjectData), &test);
 		sceneDataBuffer->copySubData(sizeof(SceneData), &mainCamera.position);
@@ -159,11 +140,11 @@ int main(int argc, char** argv)
 
 		((oglBuffer*)objectDataBuffer)->bindRange(0);
 
-		((oglBuffer*)vbuffer1)->bindVAO();
-		((oglBuffer*)vbuffer1)->bind();
-		((oglBuffer*)ibuffer1)->bind();
+		((oglBuffer*)testmesh.m_vtxBuf)->bindVAO();
+		((oglBuffer*)testmesh.m_vtxBuf)->bind();
+		((oglBuffer*)testmesh.m_idxBuf)->bind();
 		
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES,testmesh.getIndexCount(), GL_UNSIGNED_INT, nullptr);
 
 		rd->swapBuffers();
 
@@ -171,8 +152,6 @@ int main(int argc, char** argv)
 
 
 	delete s;
-	delete vbuffer1;
-	delete ibuffer1;
 	delete sceneDataBuffer;
 	delete objectDataBuffer;
 

@@ -65,9 +65,16 @@ int oglBufferFactory::createVertexBuffer(BufferDescription& bd, GLuint& id, GLui
 	glBindBuffer(GL_ARRAY_BUFFER, id);
 	
 	// format data
-	// position (vec3)
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,  sizeof(float) * 3, (void*)0);
+	// positions(Vec3)
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)0);
 	glEnableVertexAttribArray(0);
+
+	// normals(Vec3)
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)offsetof(VertexData, normal));
+	glEnableVertexAttribArray(1);
+
+	// texCoords(Vec2)
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)(void*)offsetof(VertexData, texCoord));
 
 	return 0;
 }
