@@ -18,7 +18,7 @@ class oglRenderDriver : public IRenderDriver
 {
 public:
 	oglRenderDriver();
-	~oglRenderDriver();
+	~oglRenderDriver() override;
 	
 	/**
 	 *				OpenGL - Platform Specific Implementations
@@ -61,9 +61,6 @@ public:
 	void setViewport(int x, int y, int w, int h) override;
 	void clear() override;
 
-	void initPassConstantBuffer() override;
-	void updatePassConstantBuffer(PassConstants* p) override;
-
 
 public:
 
@@ -101,8 +98,6 @@ private:
 
 	RenderDriverConfig m_rdc;
 
-	/* Per-Pass/Per-Frame buffer for GPU traffic minimization */
-	oglBuffer* m_perPassConstantBuffer;
 };
 
 

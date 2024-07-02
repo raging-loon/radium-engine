@@ -2,7 +2,7 @@
 #define GRAPHICS_IDISPLAY_H_
 
 #include "graphics/RenderDriverConfig.h"
-
+#include "core/SmartPtr.h"
 namespace radium
 {
 /**
@@ -13,7 +13,7 @@ class IDisplay
 {
 public:
 
-	static IDisplay* createDisplay();
+	static Ref<IDisplay> createDisplay();
 
 	virtual int create(int w, int h, bool windowed, const char* title) = 0;
 	virtual void destroy() = 0;

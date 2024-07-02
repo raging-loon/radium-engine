@@ -4,6 +4,7 @@
 #include "RenderDriverConfig.h"
 #include "IShaderProgram.h"
 #include "PassConstants.h"
+#include "core/SmartPtr.h"
 
 namespace radium
 {
@@ -25,6 +26,9 @@ enum class RenderAPI
 class IRenderDriver
 {
 public:
+
+	static Ref<IRenderDriver> createRenderDriver(RenderAPI api);
+
 	virtual int init(RenderDriverConfig& rdc) = 0;
 	virtual void terminate() = 0;
 
@@ -39,8 +43,8 @@ public:
 	
 	virtual void clear() = 0;
 
-	virtual void initPassConstantBuffer() = 0;
-	virtual void updatePassConstantBuffer(PassConstants* p) = 0;
+
+	virtual ~IRenderDriver() {}
 
 private:
 

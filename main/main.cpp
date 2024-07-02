@@ -7,6 +7,8 @@
 #include "graphics/IDisplay.h"
 #include "graphics/UniformData.h"
 #include "scene/component/Camera.h"
+#include "core/input/Input.h"
+
 using namespace radium;
 
 int main(int argc, char** argv)
@@ -21,7 +23,7 @@ int main(int argc, char** argv)
 		return 1;
 
 	
-	auto* window = IDisplay::createDisplay();
+	auto window = IDisplay::createDisplay();
 
 	window->create(
 		cfgmgr["wwidth"],
@@ -32,7 +34,10 @@ int main(int argc, char** argv)
 
 	auto driverConfig = window->createRenderDriverConfig();
 
-	auto* rd = new oglRenderDriver;
+	auto rd = IRenderDriver::createRenderDriver(
+		static_cast<RenderAPI>((int)cfgmgr["api"])
+	);
+
 	rd->init(driverConfig);
 	rd->setClearColor(0.5, 0.5, 0.5, 1.0);
 	rd->setViewport(0, 0, cfgmgr["wwidth"], cfgmgr["wheight"]);
@@ -128,17 +133,17 @@ int main(int argc, char** argv)
 	Camera mainCamera(90, 800 / 600, 0.1f, 1000.0f);
 	window->show();
 
-	while (!(GetKeyState(VK_ESCAPE) & 0x8000))
+	while (!Input::isKeyPressed(KeyCodes::ESCAPE))
 	{
 		window->processEvents();
 
-		if (GetKeyState(VK_UP) & 0x8000)
+		if (Input::isKeyPressed(KeyCodes::UP))
 			mainCamera.position.z += 0.005;
-		else if (GetKeyState(VK_DOWN) & 0x8000)
+		else if (Input::isKeyPressed(KeyCodes::DOWN))
 			mainCamera.position.z -= 0.005;
-		if (GetKeyState(VK_LEFT) & 0x8000)
+		if (Input::isKeyPressed(KeyCodes::RIGHT))
 			mainCamera.position.x += 0.005;
-		if (GetKeyState(VK_RIGHT) & 0x8000)
+		if (Input::isKeyPressed(KeyCodes::LEFT))
 			mainCamera.position.x -= 0.005;
 
 
@@ -170,5 +175,6 @@ int main(int argc, char** argv)
 	delete ibuffer1;
 	delete sceneDataBuffer;
 	delete objectDataBuffer;
-	delete window;
+
+	return 0;
 }

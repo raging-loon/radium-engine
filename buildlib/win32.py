@@ -14,7 +14,8 @@ def addWin32Options(env):
 
 
 	if env.is_debug:
-		env.Append(CCFLAGS=["/DEBUG", "/Od"])
+		env.Append(CCFLAGS=["/DEBUG:FULL", "/Od", "/Zi"])
+		env.Append(LINKFLAGS=["/DEBUG:FULL"])
 	else:
 		env.Append(CCFLAGS=["/O2"])
 		env.Append(CPPDEFINES=["RAD_WIN32_RELEASE"])
@@ -41,7 +42,6 @@ def addSanitizers(slist, env):
 	sanitizerList = []
 	for i in slist.split(','):
 		sanitizerList.append("/fsanitize=" + i)
-		sanitizerList.append('/Zi')
 	
 	env.Append(CCFLAGS=sanitizerList)
 	env.Append(LIBS = ["clang_rt.asan_dynamic-x86_64"])

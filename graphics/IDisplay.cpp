@@ -6,9 +6,9 @@
 
 using radium::IDisplay;
 
-IDisplay* IDisplay::createDisplay()
+radium::Ref<IDisplay> IDisplay::createDisplay()
 {
 #ifdef RAD_PLATFORM_WIN32
-	return new radium::win32::Win32Display();
+	return radium::MakeRef<radium::win32::Win32Display>();
 #endif // RAD_PLATFORM_WIN32
 }

@@ -113,6 +113,8 @@ int radium::oglRenderDriver::init(RenderDriverConfig& rdc)
 
 void radium::oglRenderDriver::terminate()
 {
+	_int_terminate();
+
 	// get rid of current context
 	wglMakeCurrent(nullptr, nullptr);
 	wglDeleteContext(m_rdc.handleGLCtx);
@@ -123,7 +125,6 @@ void radium::oglRenderDriver::terminate()
 
 
 
-	_int_terminate();
 }
 
 
