@@ -20,7 +20,7 @@ public:
 
 	}
 
-	math::Vec3 position{ 0,0,-10 };
+	math::Vec3 position{ 0,0,-5 };
 
 	math::Mat4x4 getViewMatrix();
 	math::Mat4x4 getProjectionMatrix();

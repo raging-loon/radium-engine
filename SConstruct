@@ -75,7 +75,7 @@ if env["platform"] == "win32":
 
 
 # add current directory to includepath ~~~~~~~~~~~~v
-env.Append(CPPPATH=['thirdparty/spdlog/include', os.path.abspath('.').replace('\\','/')])
+env.Append(CPPPATH=['thirdparty/spdlog/include', 'thirdparty/glm/', os.path.abspath('.').replace('\\','/')])
 
 #######################################
 ########## Chain Load Engine ##########

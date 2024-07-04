@@ -1,47 +1,55 @@
 #include "Camera.h"
 
 using namespace radium;
-using math::Vec3;
+
 math::Mat4x4 Camera::getViewMatrix()
 {
+	auto view = forward;
+	view.normalize();
 
-	auto& eye = position;
-	auto center = position + forward;
+	auto right = view.cross(up);
+	right.normalize();
 
-	auto f = Vec3::normalize(center - eye);
-	auto s = Vec3::normalize(Vec3::cross(up, f));
-	auto u = Vec3::cross(f, s);
+	auto viewUp = right.cross(up);
+	viewUp.normalize();
 
-	math::Mat4x4 res;
+	//todo: opengl specific code here
 
-	res.m00 = s.x;
-	res.m10 = s.y;
-	res.m20 = s.z;
-	res.m01 = u.x;
-	res.m11 = u.y;
-	res.m21 = u.z;
-	res.m02 = f.x;
-	res.m12 = f.y;
-	res.m22 = f.z;
-	res.m30 = - Vec3::dot(s, eye);
-	res.m31 = - Vec3::dot(u, eye);
-	res.m32 = - Vec3::dot(f, eye);
+	math::Mat4x4 rot(
+		right.x, right.y, right.z, 1,
+		viewUp.x, viewUp.y, viewUp.z, 1,
+		view.x, view.y, view.z, 1,
+		0,0,0,1
+	);
+	
+	math::Vec3 xlate = -(rot * position);
+
+	math::Mat4x4 res(rot);
+
+	res(0, 3) = xlate.x;
+	res(1, 3) = xlate.y;
+	res(2, 3) = xlate.z;
+
 
 	return res;
+
+
 }
 
 math::Mat4x4 Camera::getProjectionMatrix()
 {
-	float d = 1 / std::tanf(m_fov / 2);
-	float a = m_aspect;
 	math::Mat4x4 res;
 
-	res.m00 = d / a;
-	res.m11 = d;
-	res.m22 = (m_near + m_far) / (m_near - m_far);
-	res.m23 = (2 * m_near * m_far) / (m_near - m_far);
-	res.m32 = -1;
-	res.m33 = 0;
+	// todo: opengl sepcifgic code here
+	float d = 1.0f / std::tan(m_fov);
+	float recip = 1.0f / (m_near - m_far);
+
+	res(0, 0) = d / m_aspect;
+	res(1, 1) = d;
+	res(2, 2) = (m_near + m_far) * recip;
+	res(2, 3) = 2.0f * m_near * m_far * recip;
+	res(3, 2) = -1.0f;
+	res(3, 3) = 0.0f;
 
 	return res;
 }
