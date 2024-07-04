@@ -1,7 +1,7 @@
 /* Implementation of Input functions found in core/input/Input.h */
 
 #include <Windows.h>
-#include "math/Vec2.h"
+#include "math/math.h"
 #include "core/input/Input.h"
 
 using radium::math::Vec2;

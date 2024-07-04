@@ -1,55 +1,22 @@
 #include "Camera.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 using namespace radium;
+
+
+const math::Vec3 Camera::kForward (0.0f, 0.0f, 1.0f);
+const math::Vec3 Camera::kUp (0.0f,1.0f,0.0f);
+const math::Vec3 Camera::kRight (1.0f,0.0f,0.0f);
 
 math::Mat4x4 Camera::getViewMatrix()
 {
-	auto view = forward;
-	view.normalize();
-
-	auto right = view.cross(up);
-	right.normalize();
-
-	auto viewUp = right.cross(up);
-	viewUp.normalize();
-
-	//todo: opengl specific code here
-
-	math::Mat4x4 rot(
-		right.x, right.y, right.z, 1,
-		viewUp.x, viewUp.y, viewUp.z, 1,
-		view.x, view.y, view.z, 1,
-		0,0,0,1
-	);
 	
-	math::Vec3 xlate = -(rot * position);
-
-	math::Mat4x4 res(rot);
-
-	res(0, 3) = xlate.x;
-	res(1, 3) = xlate.y;
-	res(2, 3) = xlate.z;
-
-
-	return res;
-
+	return  { glm::lookAt(position, position + kForward, kUp) };
 
 }
 
 math::Mat4x4 Camera::getProjectionMatrix()
 {
-	math::Mat4x4 res;
-
-	// todo: opengl sepcifgic code here
-	float d = 1.0f / std::tan(m_fov);
-	float recip = 1.0f / (m_near - m_far);
-
-	res(0, 0) = d / m_aspect;
-	res(1, 1) = d;
-	res(2, 2) = (m_near + m_far) * recip;
-	res(2, 3) = 2.0f * m_near * m_far * recip;
-	res(3, 2) = -1.0f;
-	res(3, 3) = 0.0f;
-
-	return res;
+	return { glm::perspective(m_fov, m_aspect, m_near, m_far) };
 }

@@ -2,7 +2,7 @@
 #define CORE_INPUT_H_
 
 #include "core/types.h"
-#include "math/vec2.h"
+#include "math/math.h"
 
 #ifdef RAD_PLATFORM_WIN32
 # include "platform/win32/Win32KeyCodes.h"

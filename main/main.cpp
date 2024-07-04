@@ -106,9 +106,9 @@ int main(int argc, char** argv)
 		.color = {0.5, 0.0, 0.0, 1.0f}
 	};
 
-	math::Vec3 testLoc = { 0, 0, 5};
+	math::Vec3 testLoc = { 0, 0, 0};
 
-	Camera mainCamera(0.785398f, (float)((float)800 /(float) 600), 0.1f, 30.0f);
+	Camera mainCamera(0.785398f, (float)((float)800 /(float) 600), 0.1f, 100.0f);
 	window->show();
 
 	while (!Input::isKeyPressed(KeyCodes::ESCAPE))
@@ -116,14 +116,14 @@ int main(int argc, char** argv)
 		window->processEvents();
 
 
-		//if (Input::isKeyPressed(KeyCodes::UP))
-		//	mainCamera.position.z += 0.05;
-		//else if (Input::isKeyPressed(KeyCodes::DOWN))
-		//	mainCamera.position.z -= 0.05;
-		//if (Input::isKeyPressed(KeyCodes::RIGHT))
-		//	mainCamera.position.x += 0.05;
-		//else if (Input::isKeyPressed(KeyCodes::LEFT))
-		//	mainCamera.position.x -= 0.05;
+		if (Input::isKeyPressed(KeyCodes::UP))
+			mainCamera.position.z += 0.05;
+		else if (Input::isKeyPressed(KeyCodes::DOWN))
+			mainCamera.position.z -= 0.05;
+		if (Input::isKeyPressed(KeyCodes::RIGHT))
+			mainCamera.position.x += 0.05;
+		else if (Input::isKeyPressed(KeyCodes::LEFT))
+			mainCamera.position.x -= 0.05;
 
 
 		/*test.worldViewProjection = 
@@ -133,14 +133,9 @@ int main(int argc, char** argv)
 								   */
 		auto projMat = mainCamera.getProjectionMatrix();
 		auto viewMat = mainCamera.getViewMatrix();
-		auto locMat  = math::Mat4x4();
+		auto locMat  = math::Mat4x4(1);
 
 		test.worldViewProjection = projMat * viewMat * locMat;
-
-		RAD_ENGINE_INFO(
-			"MATRIX INFO: \nPROJ\n{}VIEW\n{}MODEL\n{}FINAL\n{}",
-			projMat, viewMat, locMat, test.worldViewProjection
-		);
 
 		rd->clear();
 		glEnable(GL_DEPTH_TEST);

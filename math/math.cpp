@@ -1,2 +1,1 @@
-#include <glm/glm.hpp>
-#include <glm/common.hpp>
+#include "math.h"

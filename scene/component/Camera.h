@@ -32,9 +32,9 @@ private:
 	float m_near = 0.0f;
 	float m_far = 0.0f;
 
-	math::Vec3 forward  = math::Vec3::BACK;
-	math::Vec3 up		= math::Vec3::UP;
-	math::Vec3 right	= math::Vec3::RIGHT;
+	static const math::Vec3 kForward;
+	static const math::Vec3 kUp;
+	static const math::Vec3 kRight;
 };
 
 } // radium

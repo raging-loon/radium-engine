@@ -1,9 +1,15 @@
 #ifndef MATH_MATH_H_
 #define MATH_MATH_H_
 
-// The math was adapted from Urho3D and Verth[16]
-#include "vec2.h"
-#include "vec3.h"
-#include "vec4.h"
-#include "mat4x4.h"
+#include <glm/glm.hpp>
+
+namespace radium::math
+{
+
+using Vec2 = glm::vec2;
+using Vec3 = glm::vec3;
+using Vec4 = glm::vec4;
+using Mat4x4 = glm::mat4x4;
+
+} // radium::math
 #endif // MATH_MATH_H_
