@@ -23,7 +23,7 @@ namespace Input
 	float getMouseX();
 	float getMouseY();
 	
-	math::Vec2 getMousePosition();
+	glm::vec2 getMousePosition();
 
 	bool getKeyComboPressed(KeyCode kc1, KeyCode...);
 };

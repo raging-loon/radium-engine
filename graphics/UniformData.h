@@ -14,13 +14,13 @@ constexpr U32 GLSL_OBJECT_DATA_BINDING = 2;
 
 struct SceneData
 {
-	math::Vec3 cameraPosition;
+	glm::vec3 cameraPosition;
 };
 
 struct ObjectData
 {
-	math::Mat4x4 worldViewProjection;
-	math::Vec4	color;
+	glm::mat4x4 worldViewProjection;
+	glm::vec4	color;
 };
 
 

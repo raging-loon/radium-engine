@@ -6,11 +6,16 @@
 #include "graphics/IBuffer.h"
 #include "graphics/IDisplay.h"
 #include "graphics/UniformData.h"
-#include "scene/component/Camera.h"
+#include "scene/component/DevCamera.h"
 #include "core/input/Input.h"
 #include "scene/resource/Mesh.h"
 #include <fstream>
 #include <filesystem>
+#include "math/math.h"
+#include <glm/gtc/matrix_transform.hpp>
+
+
+
 using namespace radium;
 
 int main(int argc, char** argv)
@@ -106,9 +111,9 @@ int main(int argc, char** argv)
 		.color = {0.5, 0.0, 0.0, 1.0f}
 	};
 
-	math::Vec3 testLoc = { 0, 0, 0};
+	glm::vec3 testLoc { 0, 0, 0};
 
-	Camera mainCamera(0.785398f, (float)((float)800 /(float) 600), 0.1f, 100.0f);
+	DevCamera mainCamera(45.0f, (float)((float)800 /(float) 600), 0.1f, 100.0f);
 	window->show();
 
 	while (!Input::isKeyPressed(KeyCodes::ESCAPE))
@@ -116,15 +121,7 @@ int main(int argc, char** argv)
 		window->processEvents();
 
 
-		if (Input::isKeyPressed(KeyCodes::UP))
-			mainCamera.position.z += 0.05;
-		else if (Input::isKeyPressed(KeyCodes::DOWN))
-			mainCamera.position.z -= 0.05;
-		if (Input::isKeyPressed(KeyCodes::RIGHT))
-			mainCamera.position.x += 0.05;
-		else if (Input::isKeyPressed(KeyCodes::LEFT))
-			mainCamera.position.x -= 0.05;
-
+		mainCamera.update();
 
 		/*test.worldViewProjection = 
 			mainCamera.getProjectionMatrix() * 
@@ -133,7 +130,7 @@ int main(int argc, char** argv)
 								   */
 		auto projMat = mainCamera.getProjectionMatrix();
 		auto viewMat = mainCamera.getViewMatrix();
-		auto locMat  = math::Mat4x4(1);
+		auto locMat  = glm::translate(glm::mat4x4(1.0f), testLoc) ;
 
 		test.worldViewProjection = projMat * viewMat * locMat;
 

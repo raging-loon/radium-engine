@@ -62,10 +62,10 @@ public:
 	virtual void setInt(const char* name, U32 v) = 0;
 	virtual void setFloat(const char* name, float v) = 0;
 	
-	virtual void setVec3(const char* name, math::Vec3 v) = 0;
+	virtual void setVec3(const char* name, glm::vec3 v) = 0;
 	virtual void setVec3(const char* name, float v0, float v1, float v2) = 0;
 	
-	virtual void setVec4(const char* name, math::Vec4 v) = 0;
+	virtual void setVec4(const char* name, glm::vec4 v) = 0;
 	virtual void setVec4(const char* name, float v0, float v1, float v2, float v3) = 0;
 
 

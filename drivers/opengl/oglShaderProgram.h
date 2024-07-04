@@ -22,10 +22,10 @@ public:
 	void setInt(const char* name, U32 v) override;
 	void setFloat(const char* name, float v) override;
 
-	void setVec3(const char* name, math::Vec3 v) override;
+	void setVec3(const char* name, glm::vec3 v) override;
 	void setVec3(const char* name, float v0, float v1, float v2) override;
 
-	void setVec4(const char* name, math::Vec4 v) override;
+	void setVec4(const char* name, glm::vec4 v) override;
 	void setVec4(const char* name, float v0, float v1, float v2, float v3) override;
 
 	

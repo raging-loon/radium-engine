@@ -9,9 +9,9 @@ namespace radium
 
 struct VertexData
 {
-	math::Vec3 position;
-	math::Vec3 normal;
-	math::Vec2 texCoord;
+	glm::vec3 position;
+	glm::vec3 normal;
+	glm::vec2 texCoord;
 };
 
 using IndexData = U32;

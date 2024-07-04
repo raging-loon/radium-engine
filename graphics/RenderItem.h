@@ -19,13 +19,13 @@ struct RenderItem
 
 struct TestPerObjectData
 {
-	math::Mat4x4 worldViewProj;
-	math::Vec4 color;
+	glm::mat4x4 worldViewProj;
+	glm::vec4 color;
 };
 
 struct TestPerPassData
 {
-	math::Vec3 cameraPosition;
+	glm::vec3 cameraPosition;
 };
 
 

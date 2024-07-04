@@ -21,7 +21,7 @@ namespace radium
  **/
 struct PassConstants
 {
-	math::Vec3 cameraPosition;
+	glm::vec3 cameraPosition;
 };
 
 } // radium

@@ -4,7 +4,6 @@
 #include "math/math.h"
 #include "core/input/Input.h"
 
-using radium::math::Vec2;
 
 namespace radium::Input
 {
@@ -19,7 +18,7 @@ bool isMouseButtonPressed(KeyCode kc)
 	return (GetKeyState(kc) & 0x8000);
 }
 
-Vec2 getMousePosition()
+glm::vec2 getMousePosition()
 {
 	POINT p;
 	

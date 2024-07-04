@@ -34,7 +34,7 @@ void oglShaderProgram::setFloat(const char* name, float v)
 
 }
 
-void oglShaderProgram::setVec3(const char* name, math::Vec3 v)
+void oglShaderProgram::setVec3(const char* name, glm::vec3 v)
 {
 	assert(m_uniformMap.find(name) != m_uniformMap.end());
 	glUniform3f(m_uniformMap[name], v.x, v.y, v.z);
@@ -48,7 +48,7 @@ void oglShaderProgram::setVec3(const char* name, float v0, float v1, float v2)
 
 }
 
-void oglShaderProgram::setVec4(const char* name, math::Vec4 v)
+void oglShaderProgram::setVec4(const char* name, glm::vec4 v)
 {
 	assert(m_uniformMap.find(name) != m_uniformMap.end());
 	glUniform4f(m_uniformMap[name], v.x, v.y, v.z, v.w);
