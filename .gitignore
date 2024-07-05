@@ -10,3 +10,5 @@
 *.out
 *.pdb
 __pycache__
+*.ilk
+acp/Debug

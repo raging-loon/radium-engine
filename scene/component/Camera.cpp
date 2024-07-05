@@ -18,5 +18,10 @@ glm::mat4x4 Camera::getViewMatrix()
 
 glm::mat4x4 Camera::getProjectionMatrix()
 {
-	return { glm::perspective(m_fov, m_aspect, m_near, m_far) };
+	return m_proj;
+}
+
+void radium::Camera::updateProjectionMatrix()
+{
+	m_proj = glm::perspective(m_fov, m_aspect, m_near, m_far);
 }

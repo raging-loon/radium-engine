@@ -72,6 +72,7 @@ void oglBuffer::bindRange(U32 index)
 void oglBuffer::copyData(unsigned int size, void* data) 
 {
 	assert(data != nullptr);
+	RAD_ENGINE_INFO("INfo here");
 	glBufferData(
 		m_target,
 		size,

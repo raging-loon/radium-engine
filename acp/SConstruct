@@ -1,0 +1,83 @@
+import os
+import sys
+import shutil
+
+# Add '../' as a search directory so we can access buidlib
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+
+from buildlib import win32, utils
+
+env = Environment()
+
+env.source_files = []
+
+env.add_source_files = utils.add_source_files
+
+opts = Variables(['custom.py'], ARGUMENTS)
+
+opts.Add(PathVariable('assimp', help='Path to ASSIMP .lib file', default=r'C:\Program Files\Assimp\lib\x64\assimp-vc143-mt.lib'))
+opts.Add(EnumVariable('platform', 'Platform', "auto", ('auto', 'win32', 'linux')))
+opts.Add(EnumVariable('target', 'target', "debug", ('debug', 'release')))
+opts.Add(BoolVariable('vsproj', 'Generate a Visual Studio Project', default='no'))
+
+opts.Update(env)
+
+env.is_debug = env["target"] == 'debug'
+
+if(env.is_debug):
+	env.Append(CPPPDEFINES=['ACP_DEBUG'])
+
+
+
+if(env["platform"] == "auto"):
+	if(sys.platform == "win32"):
+		env["platform"] = "win32"
+
+#######################
+####### WIN 32 ########
+#######################
+if env["platform"] == "win32":
+	env.Append(CCFLAGS=["/std:c++20", "/EHsc"])
+	env.Append(CPPDEFINES=["ACP_PLATFORM_WIN32"])
+
+	env.Append(LIBS = ["kernel32", "user32", "gdi32", "winspool", "comdlg32", "advapi32",
+					   "shell32", "ole32", "oleaut32", "uuid", "odbc32", "odbccp32"])
+
+	env.Append(CPPPATH=[r'C:\Program Files\Assimp\include'])
+	if env.is_debug:
+		env.Append(CCFLAGS=["/DEBUG:FULL", "/Od", "/Zi"])
+		env.Append(LINKFLAGS=["/DEBUG:FULL"])
+	else:
+		env.Append(CCFLAGS=["/O2"])
+		env.Append(CPPDEFINES=["ACP_WIN32_RELEASE"])
+
+
+
+env.Append(CPPPATH=['../thirdparty/spdlog/include','../thirdparty/glm', os.path.abspath('.').replace('\\','/')])
+env.Append(LIBS=[env['assimp']])
+
+
+
+Export("env")
+
+SConscript("main/SCsub")
+SConscript("mesh/SCsub")
+
+target = env.Program(target='acp', source=env.source_files)
+
+shutil.copy(r'C:\Program Files\Assimp\bin\x64\assimp-vc143-mt.dll','../tools/bin')
+shutil.copy('./acp.exe','../tools/bin')
+if(env["platform"] == "win32" and env["vsproj"]):
+	env.MSVSProject(
+		target='acp.vcxproj',# + env["MSVSPROJETSUFFIX"],
+		srcs = env.source_files,
+		incs = [str(i) for i in env["CPPPATH"]],
+		localincs = [],
+		resources = [],
+		misc = [],
+		# TODO: fix v
+		buildtargets = ['../tools/bin/acp.exe', '../tools/bin/acp.exe'],
+		variant=('Debug','Release'),
+		cmdargs=f'platform=win32'
+	)
+		

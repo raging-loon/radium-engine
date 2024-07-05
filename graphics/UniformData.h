@@ -7,8 +7,11 @@ namespace radium
 {
 
 #ifdef RAD_API_OPENGL
-constexpr U32 GLSL_SCENE_DATA_BINDING = 1;
+
+constexpr U32 GLSL_SCENE_DATA_BINDING  = 1;
 constexpr U32 GLSL_OBJECT_DATA_BINDING = 2;
+constexpr U32 GLSL_LIGHT_DATA_BINDING  = 3;
+
 
 #endif // RAD_API_OPENGL
 
@@ -24,7 +27,10 @@ struct ObjectData
 };
 
 
+struct LightData
+{
 
+};
 
 
 } // radium

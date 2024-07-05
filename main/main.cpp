@@ -46,7 +46,7 @@ int main(int argc, char** argv)
 	);
 
 	rd->init(driverConfig);
-	rd->setClearColor(0.5, 0.5, 0.5, 1.0);
+	rd->setClearColor(0,0,0, 1.0);
 	rd->setViewport(0, 0, cfgmgr["wwidth"], cfgmgr["wheight"]);
 
 	ShaderProgramDescription spd;
@@ -95,8 +95,9 @@ int main(int argc, char** argv)
 	IBuffer* sceneDataBuffer =  rd->createBuffer(sdbuf);
 	IBuffer* objectDataBuffer = rd->createBuffer(objbuf);
 
-	std::ifstream testload("tests/res/monke.mdl", std::ios::binary);
-	auto size = std::filesystem::file_size("tests/res/monke.mdl");
+	std::ifstream testload("tests/res/Suzanne.mdl", std::ios::binary);
+	auto size = std::filesystem::file_size("tests/res/Suzanne.mdl");
+	
 	byte* buffer = new byte[size + 1];
 
 	testload.read((char*)buffer, size);
@@ -114,6 +115,9 @@ int main(int argc, char** argv)
 	glm::vec3 testLoc { 0, 0, 0};
 
 	DevCamera mainCamera(45.0f, (float)((float)800 /(float) 600), 0.1f, 100.0f);
+
+	glm::mat4x4 locMat = glm::translate(glm::mat4x4(1.0f), testLoc);
+
 	window->show();
 
 	while (!Input::isKeyPressed(KeyCodes::ESCAPE))
@@ -130,12 +134,14 @@ int main(int argc, char** argv)
 								   */
 		auto projMat = mainCamera.getProjectionMatrix();
 		auto viewMat = mainCamera.getViewMatrix();
-		auto locMat  = glm::translate(glm::mat4x4(1.0f), testLoc) ;
 
+		locMat = glm::rotate(locMat, glm::radians(1.0f), glm::vec3(0, 1, 0));
+	
 		test.worldViewProjection = projMat * viewMat * locMat;
 
 		rd->clear();
 		glEnable(GL_DEPTH_TEST);
+		glShadeModel(GL_SMOOTH);
 		glUseProgram(s->m_shaderID);
 		objectDataBuffer->copySubData(sizeof(ObjectData), &test);
 		sceneDataBuffer->copySubData(sizeof(SceneData), &mainCamera.position);
