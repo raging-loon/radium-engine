@@ -13,8 +13,7 @@
 #include <filesystem>
 #include "math/math.h"
 #include <glm/gtc/matrix_transform.hpp>
-
-
+#include "core/event/EventSystem.h"
 
 using namespace radium;
 
@@ -29,7 +28,6 @@ int main(int argc, char** argv)
 	if (!cfgmgr.loadConfig("tests/engine.ini"))
 		return 1;
 
-	
 	auto window = IDisplay::createDisplay();
 
 	window->create(
