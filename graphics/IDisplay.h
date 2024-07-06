@@ -5,8 +5,7 @@
 #include "core/SmartPtr.h"
 #include "core/event/Events.h"
 #include "core/event/EventSystem.h"
-#include "core/function.h"
-
+#include <functional>
 namespace radium
 {
 
@@ -18,8 +17,8 @@ namespace radium
 class __declspec(novtable) IDisplay
 {
 public:
-	using WindowCloseCallback =  radium::function<void(WindowCloseEvent*)>;
-	using WindowResizeCallback = radium::function<void(WindowResizeEvent*)>;
+	using WindowCloseCallback =  std::function<void(WindowCloseEvent*)>;
+	using WindowResizeCallback = std::function<void(WindowResizeEvent*)>;
 
 	static Ref<IDisplay> createDisplay();
 

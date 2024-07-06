@@ -1,6 +1,7 @@
 #ifndef PLATFORM_WIN32_DISPLAY_H_
 #define PLATFORM_WIN32_DISPLAY_H_
 
+#include <functional>
 #include "graphics/IDisplay.h"
 #include "graphics/RenderDriverConfig.h"
 #include <Windows.h>

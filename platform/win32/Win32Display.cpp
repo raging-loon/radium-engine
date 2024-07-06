@@ -114,7 +114,6 @@ void Win32Display::processEvents()
 			case RWM_SIZING:
 			
 			{
-				if(m_resizeCB.isValid())
 				{
 					auto nw = LOWORD(msg.lParam);
 					auto nh = HIWORD(msg.lParam);

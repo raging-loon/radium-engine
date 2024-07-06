@@ -20,23 +20,12 @@ public:
 	bool loadConfig(const char* filename = nullptr);
 
 public:
-	static Config& getSingleton()
-	{
-		static Config s_config;
-		return s_config;
-	}
 
-
-	Config(const Config&) = delete;
-	Config(const Config&&) = delete;
-	Config& operator=(const Config&) = delete;
-	Config& operator=(const Config&&) = delete;
-
+	Config();
 	~Config();
 
 
 private:
-	Config();
 	/* parse the config */
 	bool readConfig(char* cfgBuf, size_t sz);
 	/* parse potential key-value pairs*/
