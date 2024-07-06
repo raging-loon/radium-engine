@@ -11,12 +11,16 @@
 #include "scene/resource/Mesh.h"
 #include <fstream>
 #include <filesystem>
+#include <utility>
 #include "math/math.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include "core/event/EventSystem.h"
+#include "core/event/Events.h"
+#include "core/function.h"
 
 using namespace radium;
-
+Ref<IRenderDriver> ord = nullptr;
+DevCamera* mc = nullptr;
 int main(int argc, char** argv)
 {
 	radium::Log::init();
@@ -29,6 +33,18 @@ int main(int argc, char** argv)
 		return 1;
 
 	auto window = IDisplay::createDisplay();
+
+
+
+	window->setWindowResizeCallback(
+		[](WindowResizeEvent* w) -> void
+		{
+			RAD_ENGINE_INFO("Resize Event: New values: ({},{})", w->newWidth, w->newHeight);
+			::mc->updateProjectionMatrix((float)w->newWidth / (float)w->newHeight);
+			::ord->setViewport(0, 0, w->newWidth, w->newHeight);
+		}
+	);
+
 
 	window->create(
 		cfgmgr["wwidth"],
@@ -103,6 +119,11 @@ int main(int argc, char** argv)
 	Mesh testmesh;
 	
 	testmesh.load(buffer, size, *rd);
+	
+		
+	
+
+	
 
 
 	ObjectData test =
@@ -113,10 +134,14 @@ int main(int argc, char** argv)
 	glm::vec3 testLoc { 0, 0, 0};
 
 	DevCamera mainCamera(45.0f, (float)((float)800 /(float) 600), 0.1f, 100.0f);
-
+	mainCamera.updateProjectionMatrix(((float)800 / (float)600));
 	glm::mat4x4 locMat = glm::translate(glm::mat4x4(1.0f), testLoc);
 
 	window->show();
+
+
+	ord = rd;
+	mc = &mainCamera;
 
 	while (!Input::isKeyPressed(KeyCodes::ESCAPE))
 	{

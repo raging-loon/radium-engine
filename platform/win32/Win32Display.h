@@ -8,6 +8,10 @@
 namespace radium::win32
 {
 
+/* Custom Messages posted in WndProc */
+/* With this, we can capture messages in the message loop */
+constexpr UINT RWM_SIZING = WM_USER + 1;
+
 class Win32Display : public IDisplay
 {
 public:
@@ -22,6 +26,9 @@ public:
 	void processEvents() override;
 	RenderDriverConfig createRenderDriverConfig() override;
 
+	void setWindowResizeCallback(WindowResizeCallback wrc) { m_resizeCB = wrc;  };
+
+	void setWindowCloseCallback(WindowCloseCallback wcc) { m_closeCB = wcc; };
 public:
 
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -31,6 +38,8 @@ private:
 	HWND		m_hwnd;
 	WNDCLASSEX  m_winfo;
 
+	WindowCloseCallback m_closeCB;
+	WindowResizeCallback m_resizeCB;
 
 #ifdef RAD_API_OPENGL
 	HGLRC m_glCtx;

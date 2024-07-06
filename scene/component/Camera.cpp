@@ -21,7 +21,7 @@ glm::mat4x4 Camera::getProjectionMatrix()
 	return m_proj;
 }
 
-void radium::Camera::updateProjectionMatrix()
+void radium::Camera::updateProjectionMatrix(float aspect)
 {
-	m_proj = glm::perspective(m_fov, m_aspect, m_near, m_far);
+	m_proj = glm::perspective(m_fov, aspect, m_near, m_far);
 }

@@ -3,15 +3,23 @@
 
 #include "graphics/RenderDriverConfig.h"
 #include "core/SmartPtr.h"
+#include "core/event/Events.h"
+#include "core/event/EventSystem.h"
+#include "core/function.h"
+
 namespace radium
 {
+
+
 /**
  * IDisplay - interface through which
  *			  windows are created
 */
-class IDisplay
+class __declspec(novtable) IDisplay
 {
 public:
+	using WindowCloseCallback =  radium::function<void(WindowCloseEvent*)>;
+	using WindowResizeCallback = radium::function<void(WindowResizeEvent*)>;
 
 	static Ref<IDisplay> createDisplay();
 
@@ -23,6 +31,12 @@ public:
 	virtual void processEvents() = 0;
 
 	virtual RenderDriverConfig createRenderDriverConfig() = 0;
+
+	virtual void setWindowResizeCallback(WindowResizeCallback wrc) = 0;
+
+	virtual void setWindowCloseCallback(WindowCloseCallback wcc) = 0;
+
+private:
 
 };
 

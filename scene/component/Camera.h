@@ -22,7 +22,7 @@ public:
 	Camera(float fov, float aspect, float near, float far)
 		: m_fov(glm::radians(fov)), m_aspect(aspect), m_near(near), m_far(far)
 	{
-		updateProjectionMatrix();
+		updateProjectionMatrix(aspect);
 	}
 
 	glm::vec3 position{ 0,0,-5 };
@@ -30,10 +30,8 @@ public:
 	glm::mat4x4 getViewMatrix();
 	glm::mat4x4 getProjectionMatrix();
 
-	void updateProjectionMatrix();
+	void updateProjectionMatrix(float aspect);
 
-
-private:
 	/*float m_yaw = -90.0f;
 	float m_pitch = 0.0f;*/
 

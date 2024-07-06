@@ -14,13 +14,19 @@ using radium::RenderDriverConfig;
 
 LRESULT Win32Display::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	// TODO: Tie event system here
-	return DefWindowProc(hWnd, message, wParam, lParam);
+	switch (message)
+	{
+	case WM_SIZE:
+		PostMessage(hWnd, RWM_SIZING, wParam, lParam);
+		return 0;
+	default:
+		return DefWindowProc(hWnd, message, wParam, lParam);
+	}
 }
 
 
 Win32Display::Win32Display()
-	: m_hInstance(nullptr), m_hwnd(nullptr)
+	: m_hInstance(nullptr), m_hwnd(nullptr), m_closeCB(nullptr), m_resizeCB(nullptr)
 {
 	memset(&m_winfo, 0, sizeof(WNDCLASSEX));
 }
@@ -94,14 +100,37 @@ void Win32Display::hide()
 
 }
 
-
+// https://learn.microsoft.com/en-us/windows/win32/winmsg/about-messages-and-message-queues#system-defined-messages
 void Win32Display::processEvents()
 {
 	MSG msg;
 	while (PeekMessage(&msg, m_hwnd, 0, 0, PM_REMOVE))
 	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+		// todo: move this into another function
+		switch (msg.message)
+		{
+			
+			// Window Resize
+			case RWM_SIZING:
+			
+			{
+				if(m_resizeCB.isValid())
+				{
+					auto nw = LOWORD(msg.lParam);
+					auto nh = HIWORD(msg.lParam);
+					m_resizeCB(new WindowResizeEvent(nw, nh));
+				}
+				break;
+			}
+
+
+			default:
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+		}
+
+
+		
 	}
 }
 
