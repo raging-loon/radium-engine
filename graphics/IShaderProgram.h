@@ -32,32 +32,6 @@ public:
 		VERTEX,
 		PIXEL
 	};
-	/**
-	 * createUniformBuffer
-	 * 
-	 * Creates a constant/uniform buffer for use by shaders
-	 * 
-	 * @params	- count = number of buffers to generate 
-	 *			- size	= sizeof a single buffer
-	 *			- binding = OpenGL specific = bind number
-	 * 
-	 * Returns  - (OpenGL) Buffer ID
-	 *			- (DirectX) Buffer Index (to array of `ID3D12Resource`s
-	*/
-	//virtual U32 createUniformBuffer(U32 count, U32 size, U32 binding = 0) = 0;
-
-	/**
-	 * updateUniformBuffer
-	 * 
-	 * Updates uniform buffer with ID `id` (OpenGL) or at index `id` (DirectX12)
-	 * 
-	 * @param	- id
-	 *			- index - index to specific buffer
-	 *			- data  - Data to copy. Must be non-null
-	 *			- dataSize - sizeof whatever data you are copying
-	*/
-	//virtual void updateUniformBuffer(U32 id, U32 index, const void* data, U32 dataSize) = 0;
-
 
 	virtual void setInt(const char* name, U32 v) = 0;
 	virtual void setFloat(const char* name, float v) = 0;

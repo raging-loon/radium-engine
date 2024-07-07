@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "core/event/EventSystem.h"
 #include "core/debug/Log.h"
 using namespace radium;
 
@@ -35,7 +36,7 @@ bool Application::init()
 
 
 	m_window->setWindowResizeCallback(
-		test
+		bind_event_callback(this, &Application::onResize)
 	);
 
 	if (!m_window)
