@@ -1,6 +1,9 @@
 Import("env")
 
 
+SConscript("filesystem/SCsub")
 
 if(env["opengl"]):
 	SConscript("opengl/SCsub")
+
+

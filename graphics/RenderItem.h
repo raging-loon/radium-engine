@@ -4,30 +4,18 @@
 #include "graphics/IBuffer.h"
 #include "core/types.h"
 #include "math/math.h"
+#include "scene/resource/Mesh.h"
+
 namespace radium
 {
 
 // TODO: This might need to be changed when instancing is supported
 struct RenderItem
 {
-	IBuffer* vertexBuffer;
-	IBuffer* indexBuffer;
-
+	Mesh* mesh;
 	U32 uniformIndex;
 	
 };
-
-struct TestPerObjectData
-{
-	glm::mat4x4 worldViewProj;
-	glm::vec4 color;
-};
-
-struct TestPerPassData
-{
-	glm::vec3 cameraPosition;
-};
-
 
 } // radium
 

@@ -16,7 +16,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "core/event/EventSystem.h"
 #include "core/event/Events.h"
+#include "drivers/filesystem/filesystem.h"
 #include <functional>
+
 using namespace radium;
 Ref<IRenderDriver> ord = nullptr;
 DevCamera* mc = nullptr;
@@ -25,7 +27,6 @@ int main(int argc, char** argv)
 	radium::Log::init();
 
 	RAD_ENGINE_INFO("hello mr. freeman");
-
 
 	Config cfgmgr;
 
@@ -109,10 +110,14 @@ int main(int argc, char** argv)
 	IBuffer* sceneDataBuffer = rd->createBuffer(sdbuf);
 	IBuffer* objectDataBuffer = rd->createBuffer(objbuf);
 
-	std::ifstream testload("tests/res/Suzanne.mdl", std::ios::binary);
-	auto size = std::filesystem::file_size("tests/res/Suzanne.mdl");
+	//std::ifstream testload("tests/res/Suzanne.mdl", std::ios::binary);
+	//auto size = std::filesystem::file_size("tests/res/Suzanne.mdl");
 
-	byte* buffer = new byte[size + 1];
+	filesystem::File testload("tests/res/Suzanne.mdl", "rb");
+	auto size = testload.size();
+
+	byte* buffer = new byte[size];
+
 
 	testload.read((char*)buffer, size);
 
