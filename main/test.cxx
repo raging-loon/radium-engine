@@ -2,6 +2,7 @@
 #include "core/config/Config.h"
 #include "drivers/opengl/oglRenderDriver.h"
 #include "drivers/opengl/oglShaderProgram.h"
+#include "drivers/opengl/oglTexture.h"
 #include "graphics/interface/IRenderDriver.h"
 #include "graphics/interface/IBuffer.h"
 #include "graphics/interface/IDisplay.h"
@@ -22,6 +23,10 @@
 using namespace radium;
 Ref<IRenderDriver> ord = nullptr;
 DevCamera* mc = nullptr;
+
+static Mesh* createMesh(const char* filename);
+
+
 int main(int argc, char** argv)
 {
 	radium::Log::init();
@@ -59,6 +64,7 @@ int main(int argc, char** argv)
 	auto rd = IRenderDriver::createRenderDriver(
 		static_cast<RenderAPI>((int)cfgmgr["api"])
 	);
+	ord = rd;
 
 	rd->init(driverConfig);
 	rd->setClearColor(0, 0, 0, 1.0);
@@ -113,13 +119,21 @@ int main(int argc, char** argv)
 	//std::ifstream testload("tests/res/Suzanne.mdl", std::ios::binary);
 	//auto size = std::filesystem::file_size("tests/res/Suzanne.mdl");
 
-	filesystem::File testload("tests/res/Suzanne.mdl", "rb");
-	auto size = testload.size();
-	byte* buffer = new byte[size];
-	testload.read((char*)buffer, size);
-	Mesh testmesh;
-	testmesh.load(buffer, size, *rd);
-	delete[] buffer;
+
+	Mesh* monkey = createMesh("tests/res/bronze_monkey_statue.mdl");
+	Mesh* gun = createMesh("tests/res/mg.ms3d.m.001.mdl");
+
+
+	glActiveTexture(GL_TEXTURE0);
+	oglTexture* x = (oglTexture*)(((oglRenderDriver*)(rd.get()))->createTexture("tests/res/bronze_monkey_statue_color.jpg"));
+	x->activate();
+	
+	glUseProgram(s->m_shaderID);
+	s->addParameter("testTexture");
+
+	glActiveTexture(GL_TEXTURE1);
+	oglTexture* gunTexture = (oglTexture*)(((oglRenderDriver*)(rd.get()))->createTexture("tests/res/mg42_d.png"));
+	gunTexture->activate();
 
 	ObjectData tests[] =
 	{
@@ -128,7 +142,7 @@ int main(int argc, char** argv)
 
 	};
 
-	glm::vec3 testLoc{ 0.5,0, -5};
+	glm::vec3 testLoc{ 6,0, 0};
 	glm::vec3 testLoc2{ 0, 0, 0 };
 
 	DevCamera mainCamera(45.0f, ((float)800 / (float)600), 0.1f, 100.0f);
@@ -138,15 +152,19 @@ int main(int argc, char** argv)
 	locMat = glm::translate(glm::mat4x4(1.0f), testLoc);
 	locMat2 = glm::translate(glm::mat4x4(1.0f), testLoc2);
 
+	locMat2 = glm::rotate(locMat2, glm::radians(90.0f), glm::vec3(1, 0, 0));
+	locMat2 = glm::scale(locMat2, glm::vec3(0.1,0.1,0.1));
 	window->show();
 
-	ord = rd;
 	mc = &mainCamera;
+	// mg.ms3d.m.001.mdl
+	// mg42_d.png
+
 
 	RenderItem ri[] =
 	{
-		{&testmesh, 0},
-		{&testmesh, 1},
+		{monkey, 0},
+		{gun, 1},
 	};
 
 
@@ -168,9 +186,6 @@ int main(int argc, char** argv)
 
 		rd->clear();
 		glEnable(GL_DEPTH_TEST);
-		
-		glShadeModel(GL_SMOOTH);
-
 		glUseProgram(s->m_shaderID);
 		
 		tests[0].worldViewProjection = projMat * viewMat * locMat;
@@ -184,14 +199,17 @@ int main(int argc, char** argv)
 		for (int i = 0; i < 2; i++)
 		{
 			auto& cur = ri[i];
-
+		
 			((oglBuffer*)objectDataBuffer)->bindRange(i);
 
-			((oglBuffer*)testmesh.m_vtxBuf)->bindVAO();
-			((oglBuffer*)testmesh.m_vtxBuf)->bind();
-			((oglBuffer*)testmesh.m_idxBuf)->bind();
+			((oglBuffer*)(cur.mesh->m_vtxBuf))->bindVAO();
+			((oglBuffer*)(cur.mesh->m_vtxBuf))->bind();
+			((oglBuffer*)(cur.mesh->m_idxBuf))->bind();
+			s->setInt("testTexture", i);
 
-			glDrawElements(GL_TRIANGLES, testmesh.getIndexCount(), GL_UNSIGNED_INT, nullptr);
+			glActiveTexture(GL_TEXTURE0 + i);
+
+			glDrawElements(GL_TRIANGLES, cur.mesh->getIndexCount(), GL_UNSIGNED_INT, nullptr);
 
 		}
 
@@ -204,6 +222,24 @@ int main(int argc, char** argv)
 	delete s;
 	delete sceneDataBuffer;
 	delete objectDataBuffer;
+	delete monkey;
+	delete gun;
 
 	return 0;
+}
+
+
+static Mesh* createMesh(const char* filename)
+{
+
+	Mesh* testmesh = new Mesh;
+	filesystem::File testload(filename, "rb");
+	auto size = testload.size();
+	byte* buffer = new byte[size];
+	testload.read((char*)buffer, size);
+	testmesh->load(buffer, size, *ord);
+	delete[] buffer;
+
+	return testmesh;
+
 }

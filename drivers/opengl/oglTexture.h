@@ -11,16 +11,16 @@ namespace radium
 class oglTexture : public ITexture
 {
 public:
-	oglTexture(GLuint id, unsigned int w, unsigned int h)
+	oglTexture(GLuint id, int w, int h)
 		: m_texId(id), m_height(h), m_width(w)
 	{}
 
 	void activate();
 
-private:
 	GLuint m_texId;
-	unsigned int m_height;
-	unsigned int m_width;
+private:
+	int m_height;
+	int m_width;
 
 	
 };

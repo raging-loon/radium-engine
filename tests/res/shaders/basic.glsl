@@ -19,9 +19,11 @@ layout (std140, binding=2) uniform perObject
 	vec4 poColor;	// 16
 };
 
+
 out vec4 color;
 out vec3 FragPos;
 out vec3 Normal;
+out vec2 TexCoord;
 void main()
 {
 	gl_Position =  modelViewProjection * vec4(iPosition , 1.0f);
@@ -29,6 +31,7 @@ void main()
 	// todo: fix
 	Normal = mat3(transpose(inverse(model))) * iNormal;
 	FragPos = vec3(model * vec4(iPosition, 1.0));
+	TexCoord = iTexCoord;
 }
 #endsection
 
@@ -54,6 +57,10 @@ out vec4 FragColor;
 in vec4 color;
 in vec3 Normal;
 in vec3 FragPos;
+in vec2 TexCoord;
+
+uniform sampler2D testTexture;
+
 
 void main()
 {
@@ -63,7 +70,7 @@ void main()
 	vec3 ambient = ambientColor * 0.1;
 
 	vec3 norm = normalize(Normal);
-	vec3 lightPos = vec3(0, 1, -1);
+	vec3 lightPos = cameraPosition;
 	vec3 lightDir = normalize(lightPos - FragPos);
 
 	float diff = max(dot(norm, lightDir), 0.0);
@@ -76,9 +83,9 @@ void main()
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 256);
 	vec3 specular = 0.5 * spec * vec3(1,1,1);
 
-	vec3 res = (ambient + diffuse + specular)  * vec3(color.x,color.y, color.z) ;
-
-	FragColor = vec4(res, 1.0f);
+	vec3 res = (ambient + diffuse + specular);
+	vec4 temp = texture(testTexture, TexCoord);
+	FragColor = vec4(res,1.0f) * temp;
 }
 
 #endsection

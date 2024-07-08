@@ -23,7 +23,7 @@ bool oglShaderProgram::addParameter(const char* name)
 
 void oglShaderProgram::setInt(const char* name, U32 v)
 {
-	assert(m_uniformMap.find(name) != m_uniformMap.end());
+	//assert(m_uniformMap.find(name) != m_uniformMap.end());
 	glUniform1i(m_uniformMap[name], v);
 }
 

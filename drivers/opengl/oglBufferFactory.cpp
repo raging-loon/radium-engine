@@ -74,7 +74,9 @@ int oglBufferFactory::createVertexBuffer(BufferDescription& bd, GLuint& id, GLui
 	glEnableVertexAttribArray(1);
 
 	// texCoords(Vec2)
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)(void*)offsetof(VertexData, texCoord));
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)offsetof(VertexData, texCoord));
+	glEnableVertexAttribArray(2);
+	glBindVertexArray(0);
 
 	return 0;
 }
