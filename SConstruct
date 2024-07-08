@@ -75,8 +75,12 @@ if env["platform"] == "win32":
 
 
 # add current directory to includepath ~~~~~~~~~~~~v
-env.Append(CPPPATH=['thirdparty/spdlog/include', 'thirdparty/glm/', os.path.abspath('.').replace('\\','/')])
-
+env.Append(CPPPATH=['thirdparty/spdlog/include', 
+				    'thirdparty/glm/', 
+					'thirdparty/stb',
+					os.path.abspath('.').replace('\\','/')])
+env.Append(CPPDEFINES=['STB_IMAGE_IMPLEMENTATION'])
+env.source_files.append('thirdparty/stb/stb_image.cpp')
 #######################################
 ########## Chain Load Engine ##########
 #######################################
@@ -104,7 +108,7 @@ target = env.Program(target='build/radium-engine', source=env.source_files)
 if(env["platform"] == "win32" and env["vsproj"]):
 	env.MSVSProject(
 		target='radium-engine.vcxproj',# + env["MSVSPROJETSUFFIX"],
-		srcs = env.source_files,
+		srcs =[str(i) for i in env.source_files],
 		incs = [str(i) for i in env["CPPPATH"]],
 		localincs = [],
 		resources = [],

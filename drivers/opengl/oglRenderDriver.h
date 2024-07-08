@@ -1,13 +1,13 @@
 ﻿#ifndef DRIVERS_OPENGL_GL_RENDER_DRIVER_H_
 #define DRIVERS_OPENGL_GL_RENDER_DRIVER_H_
 
-#include "graphics/IRenderDriver.h"
-#include "graphics/IBuffer.h"
-#include "graphics/IShaderProgram.h"
+#include "graphics/interface/IRenderDriver.h"
+#include "graphics/interface/IBuffer.h"
+#include "graphics/interface/IShaderProgram.h"
 #include "drivers/opengl/oglBuffer.h"
 #include "drivers/opengl/oglBufferFactory.h"
 
-#include "graphics/RenderItem.h"
+#include "graphics/component/RenderItem.h"
 
 namespace radium
 {

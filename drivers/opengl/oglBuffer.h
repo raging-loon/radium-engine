@@ -1,7 +1,7 @@
 #ifndef DRIVERS_OPENGL_OGL_BUFFER_H_
 #define DRIVERS_OPENGL_OGL_BUFFER_H_
 
-#include "graphics/IBuffer.h"
+#include "graphics/interface/IBuffer.h"
 
 #ifdef RAD_API_OPENGL
 

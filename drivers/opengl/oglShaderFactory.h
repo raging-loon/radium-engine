@@ -5,7 +5,7 @@
 
 #include <GL/glew.h>
 #include "core/types.h"
-#include "graphics/IShaderProgram.h"
+#include "graphics/interface/IShaderProgram.h"
 
 namespace radium
 {

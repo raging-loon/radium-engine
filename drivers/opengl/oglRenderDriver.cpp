@@ -1,6 +1,6 @@
 #include "core/debug/Log.h"
-#include "graphics/IBuffer.h"
-#include "graphics/IShaderProgram.h"
+#include "graphics/interface/IBuffer.h"
+#include "graphics/interface/IShaderProgram.h"
 #include "drivers/opengl/oglBuffer.h"
 
 #include "oglRenderDriver.h"

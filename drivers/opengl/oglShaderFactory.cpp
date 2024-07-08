@@ -1,5 +1,5 @@
 #include "oglShaderFactory.h"
-#include "graphics/IShaderProgram.h"
+#include "graphics/interface/IShaderProgram.h"
 #include "core/debug/Log.h"
 
 #include <GL/glew.h>

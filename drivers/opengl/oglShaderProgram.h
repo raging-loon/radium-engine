@@ -1,7 +1,7 @@
 #ifndef DRIVER_OPENGL_OGL_SHADER_PROGRAM_H_
 #define DRIVER_OPENGL_OGL_SHADER_PROGRAM_H_
 
-#include "graphics/IShaderProgram.h"
+#include "graphics/interface/IShaderProgram.h"
 #include <core/types.h>
 #include "math/math.h"
 #include <GL/glew.h>

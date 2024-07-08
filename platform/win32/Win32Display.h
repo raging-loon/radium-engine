@@ -2,8 +2,8 @@
 #define PLATFORM_WIN32_DISPLAY_H_
 
 #include <functional>
-#include "graphics/IDisplay.h"
-#include "graphics/RenderDriverConfig.h"
+#include "graphics/interface/IDisplay.h"
+#include "graphics/component/RenderDriverConfig.h"
 #include <Windows.h>
 
 namespace radium::win32

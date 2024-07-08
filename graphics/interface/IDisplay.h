@@ -1,7 +1,7 @@
 #ifndef GRAPHICS_IDISPLAY_H_
 #define GRAPHICS_IDISPLAY_H_
 
-#include "graphics/RenderDriverConfig.h"
+#include "graphics/component/RenderDriverConfig.h"
 #include "core/SmartPtr.h"
 #include "core/event/Events.h"
 #include "core/event/EventSystem.h"

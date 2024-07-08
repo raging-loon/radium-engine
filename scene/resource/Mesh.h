@@ -3,8 +3,8 @@
 
 #include "core/types.h"
 #include "core/SmartPtr.h"
-#include "graphics/IBuffer.h"
-#include "graphics/IRenderDriver.h"
+#include "graphics/interface/IBuffer.h"
+#include "graphics/interface/IRenderDriver.h"
 namespace radium
 {
 

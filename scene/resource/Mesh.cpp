@@ -1,6 +1,6 @@
 #include "Mesh.h"
 #include "core/debug/Log.h"
-#include "graphics/VertexData.h"
+#include "graphics/component/VertexData.h"
 using namespace radium;
 
 Mesh::Mesh()

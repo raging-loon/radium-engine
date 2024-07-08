@@ -1,9 +1,8 @@
 #ifndef GRAPHICS_IRENDER_DRIVER_H_
 #define GRAPHICS_IRENDER_DRIVER_H_
 
-#include "RenderDriverConfig.h"
+#include "graphics/component/RenderDriverConfig.h"
 #include "IShaderProgram.h"
-#include "PassConstants.h"
 #include "core/SmartPtr.h"
 
 namespace radium

@@ -2,8 +2,8 @@
 #define CORE_APPLICATION_APPLICATION_H_
 
 #include "core/config/Config.h"
-#include "graphics/IDisplay.h"
-#include "graphics/IRenderDriver.h"
+#include "graphics/interface/IDisplay.h"
+#include "graphics/interface/IRenderDriver.h"
 #include "core/event/Events.h"
 #include "core/event/EventSystem.h"
 

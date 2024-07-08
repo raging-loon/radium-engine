@@ -1,5 +1,5 @@
 #include "oglBuffer.h"
-#include "graphics/IBuffer.h"
+#include "graphics/interface/IBuffer.h"
 #include "core/types.h"
 #include "core/debug/Log.h"
 

@@ -1,7 +1,7 @@
 #include "oglBufferFactory.h"
 #include "core/debug/Log.h"
 #include "oglBuffer.h"
-#include "graphics/VertexData.h"
+#include "graphics/component/VertexData.h"
 
 #include <GL/glew.h>
 

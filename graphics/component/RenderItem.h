@@ -1,7 +1,6 @@
 #ifndef GRAPHICS_RENDER_ITEM_H_
 #define GRAPHICS_RENDER_ITEM_H_
 
-#include "graphics/IBuffer.h"
 #include "core/types.h"
 #include "math/math.h"
 #include "scene/resource/Mesh.h"
