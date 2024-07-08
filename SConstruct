@@ -6,7 +6,6 @@ import sys
 env = Environment()
 
 env.source_files = []
-
 def add_source_files(self, files):
 	newfiles = []
 
@@ -79,8 +78,10 @@ env.Append(CPPPATH=['thirdparty/spdlog/include',
 				    'thirdparty/glm/', 
 					'thirdparty/stb',
 					os.path.abspath('.').replace('\\','/')])
-env.Append(CPPDEFINES=['STB_IMAGE_IMPLEMENTATION'])
+
 env.source_files.append('thirdparty/stb/stb_image.cpp')
+
+
 #######################################
 ########## Chain Load Engine ##########
 #######################################

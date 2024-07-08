@@ -128,10 +128,10 @@ int main(int argc, char** argv)
 
 	};
 
-	glm::vec3 testLoc{ 0, 0, 0 };
-	glm::vec3 testLoc2{ -5, 0, 0 };
+	glm::vec3 testLoc{ 0.5,0, -5};
+	glm::vec3 testLoc2{ 0, 0, 0 };
 
-	DevCamera mainCamera(45.0f, (float)((float)800 / (float)600), 0.1f, 100.0f);
+	DevCamera mainCamera(45.0f, ((float)800 / (float)600), 0.1f, 100.0f);
 	mainCamera.updateProjectionMatrix(((float)800 / (float)600));
 	glm::mat4x4& locMat = tests[0].model;
 	glm::mat4x4& locMat2 = tests[1].model;

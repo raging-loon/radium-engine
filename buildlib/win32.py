@@ -14,7 +14,7 @@ def addWin32Options(env):
 
 
 	if env.is_debug:
-		env.Append(CCFLAGS=["/DEBUG:FULL", "/Od", "/Zi"])
+		env.Append(CCFLAGS=["/Od", "/Zi"])
 		env.Append(LINKFLAGS=["/DEBUG:FULL","/PDB:radium-engine.pdb"])
 	else:
 		env.Append(CCFLAGS=["/O2"])

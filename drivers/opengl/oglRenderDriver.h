@@ -4,10 +4,13 @@
 #include "graphics/interface/IRenderDriver.h"
 #include "graphics/interface/IBuffer.h"
 #include "graphics/interface/IShaderProgram.h"
+#include "graphics/interface/ITexture.h"
+
+#include "graphics/component/RenderItem.h"
+
 #include "drivers/opengl/oglBuffer.h"
 #include "drivers/opengl/oglBufferFactory.h"
 
-#include "graphics/component/RenderItem.h"
 
 namespace radium
 {
@@ -54,7 +57,7 @@ public:
 
 	IBuffer* createBuffer(BufferDescription& bd) override;
 	IShaderProgram* createShader(ShaderProgramDescription& spd) override;
-
+	ITexture* createTexture(const char* path);
 	void draw(IShaderProgram* shader, RenderItem* drawList, U32 dlSize);
 
 	void setClearColor(float r, float g, float b, float a) override;
@@ -90,8 +93,6 @@ private:
 		
 	/* ShaderProgram ID => ShaderProgram */
 	//std::unordered_map<U32, IShaderProgram*> m_spID2spMap;
-
-	IShaderProgram* opaqueShader;
 
 	// TODO: get rid of this and make all oglBufferFactory's functions static
 	oglBufferFactory m_bufferFactory;

@@ -3,9 +3,13 @@
 #include "graphics/interface/IShaderProgram.h"
 #include "drivers/opengl/oglBuffer.h"
 
+
+#include "oglTexture.h"
 #include "oglRenderDriver.h"
 #include "oglShaderFactory.h"
 #include "oglShaderProgram.h"
+
+#include "stb_image.h"
 
 #include <GL/glew.h>
 #include <GL/GL.h>
@@ -69,6 +73,37 @@ IShaderProgram* oglRenderDriver::createShader(ShaderProgramDescription& spd)
 		return nullptr;
 	return new oglShaderProgram(sid);
 	
+}
+
+ITexture* radium::oglRenderDriver::createTexture(const char* path)
+{
+	int width, height, nChannels;
+
+	unsigned char* imageData = stbi_load(path, &width, &height, &nChannels, 0);
+
+	if (!imageData)
+	{
+		RAD_ENGINE_ERROR("Failed to load image at {}: {}", path, stbi_failure_reason());
+		return nullptr;
+	}
+	
+	GLuint texId;
+
+	glGenTextures(1, &texId);
+	glBindTexture(GL_TEXTURE_2D, texId);
+	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	oglTexture* nt = new oglTexture(texId, width, height);
+
+	stbi_image_free(imageData);
+	return nt;
 }
 
 void oglRenderDriver::draw(IShaderProgram* shader, RenderItem* drawList, U32 dlSize)
