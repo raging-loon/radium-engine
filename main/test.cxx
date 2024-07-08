@@ -101,7 +101,7 @@ int main(int argc, char** argv)
 	{
 		.type = buffer_t::UNIFORM,
 		.size = sizeof(ObjectData),
-		.count = 1,
+		.count = 2,
 		.data = nullptr,
 		.binding = GLSL_OBJECT_DATA_BINDING
 	};
@@ -115,38 +115,40 @@ int main(int argc, char** argv)
 
 	filesystem::File testload("tests/res/Suzanne.mdl", "rb");
 	auto size = testload.size();
-
 	byte* buffer = new byte[size];
-
-
 	testload.read((char*)buffer, size);
-
 	Mesh testmesh;
-
 	testmesh.load(buffer, size, *rd);
+	delete[] buffer;
 
-
-
-
-
-
-
-	ObjectData test =
+	ObjectData tests[] =
 	{
-		.color = {0.5, 0.0, 0.0, 1.0f}
+		{.color = {0.5, 0.0, 0.0, 1.0f}},
+		{.color = {0.0, 0.5, 0.0, 1.0f}},
+
 	};
 
 	glm::vec3 testLoc{ 0, 0, 0 };
+	glm::vec3 testLoc2{ -5, 0, 0 };
 
 	DevCamera mainCamera(45.0f, (float)((float)800 / (float)600), 0.1f, 100.0f);
 	mainCamera.updateProjectionMatrix(((float)800 / (float)600));
-	glm::mat4x4 locMat = glm::translate(glm::mat4x4(1.0f), testLoc);
+	glm::mat4x4& locMat = tests[0].model;
+	glm::mat4x4& locMat2 = tests[1].model;
+	locMat = glm::translate(glm::mat4x4(1.0f), testLoc);
+	locMat2 = glm::translate(glm::mat4x4(1.0f), testLoc2);
 
 	window->show();
 
-
 	ord = rd;
 	mc = &mainCamera;
+
+	RenderItem ri[] =
+	{
+		{&testmesh, 0},
+		{&testmesh, 1},
+	};
+
 
 	while (!Input::isKeyPressed(KeyCodes::ESCAPE))
 	{
@@ -163,25 +165,36 @@ int main(int argc, char** argv)
 		auto projMat = mainCamera.getProjectionMatrix();
 		auto viewMat = mainCamera.getViewMatrix();
 
-		locMat = glm::rotate(locMat, glm::radians(1.0f), glm::vec3(0, 1, 0));
-
-		test.worldViewProjection = projMat * viewMat * locMat;
 
 		rd->clear();
 		glEnable(GL_DEPTH_TEST);
+		
 		glShadeModel(GL_SMOOTH);
+
 		glUseProgram(s->m_shaderID);
-		objectDataBuffer->copySubData(sizeof(ObjectData), &test);
+		
+		tests[0].worldViewProjection = projMat * viewMat * locMat;
+		tests[1].worldViewProjection = projMat * viewMat * locMat2;
+
+
+		objectDataBuffer->copySubData(sizeof(ObjectData) * 2, tests);
 		sceneDataBuffer->copySubData(sizeof(SceneData), &mainCamera.position);
+		//locMat = glm::rotate(locMat, glm::radians(1.0f), glm::vec3(0, 1, 0));
+		
+		for (int i = 0; i < 2; i++)
+		{
+			auto& cur = ri[i];
 
+			((oglBuffer*)objectDataBuffer)->bindRange(i);
 
-		((oglBuffer*)objectDataBuffer)->bindRange(0);
+			((oglBuffer*)testmesh.m_vtxBuf)->bindVAO();
+			((oglBuffer*)testmesh.m_vtxBuf)->bind();
+			((oglBuffer*)testmesh.m_idxBuf)->bind();
 
-		((oglBuffer*)testmesh.m_vtxBuf)->bindVAO();
-		((oglBuffer*)testmesh.m_vtxBuf)->bind();
-		((oglBuffer*)testmesh.m_idxBuf)->bind();
+			glDrawElements(GL_TRIANGLES, testmesh.getIndexCount(), GL_UNSIGNED_INT, nullptr);
 
-		glDrawElements(GL_TRIANGLES, testmesh.getIndexCount(), GL_UNSIGNED_INT, nullptr);
+		}
+
 
 		rd->swapBuffers();
 

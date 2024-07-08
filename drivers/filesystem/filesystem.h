@@ -8,6 +8,7 @@ namespace radium::filesystem
 class File
 {
 public:
+
 	File(const char* path, const char* access);
 
 
@@ -24,7 +25,6 @@ private:
 
 	FILE* fp;
 	bool m_isOpen;
-	char path[];
 };
 
 

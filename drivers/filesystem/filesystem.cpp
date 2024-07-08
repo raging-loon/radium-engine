@@ -1,5 +1,7 @@
 #include "filesystem.h"
 #include "core/debug/Log.h"
+// Windows has a version of stat too
+#include <sys/stat.h>
 
 using radium::filesystem::File;
 
@@ -66,4 +68,6 @@ int File::size()
 	assert(ftell(fp) == curPos);
 
 	return (endPos - begPos);
+
+	
 }

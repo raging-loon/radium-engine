@@ -91,7 +91,6 @@ void oglRenderDriver::draw(IShaderProgram* shader, RenderItem* drawList, U32 dlS
 	//	glBindBufferRange(GL_UNIFORM_BUFFER, 2, sp->m_perObjectUB, cur->uniformIndex * sp->m_perObjectItemSize, sp->m_perObjectItemSize);
 	//	glDrawElements(GL_TRIANGLES, idxb->count, GL_UNSIGNED_INT, nullptr);
 	//}
-
 }
 
 void oglRenderDriver::setClearColor(float r, float g, float b, float a)

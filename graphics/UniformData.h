@@ -23,6 +23,7 @@ struct SceneData
 struct ObjectData
 {
 	glm::mat4x4 worldViewProjection;
+	glm::mat4x4 model;
 	glm::vec4	color;
 };
 
