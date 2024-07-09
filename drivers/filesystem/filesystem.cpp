@@ -11,6 +11,12 @@ File::File(const char* path, const char* access)
 	open(path, access);
 }
 
+File::~File()
+{
+	if(fp && m_isOpen)
+		fclose(fp)
+}
+
 int File::open(const char* path, const char* access)
 {
 	if (m_isOpen)

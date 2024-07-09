@@ -1,0 +1,7 @@
+ignore:
+	- path: ^thirdparty/.*$
+      reason: "Not my code"
+	  expires: "2099-1-1T0:0:0Z"
+	- path: ^tests/.*$
+      reason: "Not concenred"
+	  expires: "2099-1-1T0:0:0Z"

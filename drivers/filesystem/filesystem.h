@@ -10,7 +10,7 @@ class File
 public:
 
 	File(const char* path, const char* access);
-
+	~File();
 
 	virtual int open(const char* path, const char* access);
 	virtual void close();
