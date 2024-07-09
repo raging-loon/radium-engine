@@ -1,7 +1,4 @@
-ignore:
-	- path: thirdparty
-      reason: "Not my code"
-	  expires: "2099-1-1T0:0:0Z"
-	- path: tests
-      reason: "Not concerned"
-	  expires: "2099-1-1T0:0:0Z"
+exclude:
+	global:
+		- thirdparty/**
+		- tests/**
