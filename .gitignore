@@ -1,6 +1,7 @@
 .vs
 *.obj
 *.exe
+!tools/bin/*.exe
 .sconsign.dblite
 *vcx*
 *.sln
@@ -12,3 +13,4 @@
 __pycache__
 *.ilk
 acp/Debug
+.dccache
