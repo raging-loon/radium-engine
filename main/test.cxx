@@ -51,6 +51,8 @@ int main(int argc, char** argv)
 		}
 	);
 
+	
+
 
 	window->create(
 		cfgmgr["wwidth"],
@@ -131,7 +133,7 @@ int main(int argc, char** argv)
 	glUseProgram(s->m_shaderID);
 	s->addParameter("testTexture");
 
-	glActiveTexture(GL_TEXTURE1);
+	glActiveTexture(GL_TEXTURE0);
 	oglTexture* gunTexture = (oglTexture*)(((oglRenderDriver*)(rd.get()))->createTexture("tests/res/mg42_d.png"));
 	gunTexture->activate();
 
@@ -159,14 +161,19 @@ int main(int argc, char** argv)
 	mc = &mainCamera;
 	// mg.ms3d.m.001.mdl
 	// mg42_d.png
-
-
+	//window->setMouseMoveCallback(
+	//	[](MouseMoveEvent* m) -> void
+	//	{
+	//		::mc->updateRotation(m->x, m->y);
+	//	}
+	//);
+	mainCamera.sensitivity = 0.1;
 	RenderItem ri[] =
 	{
 		{monkey, 0},
 		{gun, 1},
 	};
-
+	oglTexture* textures[] = { x, gunTexture };
 
 	while (!Input::isKeyPressed(KeyCodes::ESCAPE))
 	{
@@ -205,9 +212,11 @@ int main(int argc, char** argv)
 			((oglBuffer*)(cur.mesh->m_vtxBuf))->bindVAO();
 			((oglBuffer*)(cur.mesh->m_vtxBuf))->bind();
 			((oglBuffer*)(cur.mesh->m_idxBuf))->bind();
-			s->setInt("testTexture", i);
 
-			glActiveTexture(GL_TEXTURE0 + i);
+			glActiveTexture(GL_TEXTURE0);
+			textures[i]->activate();
+			s->setInt("testTexture", 0);
+
 
 			glDrawElements(GL_TRIANGLES, cur.mesh->getIndexCount(), GL_UNSIGNED_INT, nullptr);
 

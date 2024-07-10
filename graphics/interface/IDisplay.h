@@ -17,8 +17,9 @@ namespace radium
 class __declspec(novtable) IDisplay
 {
 public:
-	using WindowCloseCallback =  std::function<void(WindowCloseEvent*)>;
+	using WindowCloseCallback  = std::function<void(WindowCloseEvent*)>;
 	using WindowResizeCallback = std::function<void(WindowResizeEvent*)>;
+	using MouseMoveCallback    = std::function<void(MouseMoveEvent*)>;
 
 	static Ref<IDisplay> createDisplay();
 
@@ -34,6 +35,10 @@ public:
 	virtual void setWindowResizeCallback(WindowResizeCallback wrc) = 0;
 
 	virtual void setWindowCloseCallback(WindowCloseCallback wcc) = 0;
+
+	virtual void setMouseMoveCallback(MouseMoveCallback mmc) = 0;
+
+	virtual ~IDisplay() {};
 
 private:
 

@@ -11,11 +11,16 @@ class DevCamera : public Camera
 public:
 
 	DevCamera(float fov, float aspect, float near, float far)
-		: Camera(fov, aspect, near, far)
+		: Camera(fov, aspect, near, far), lastXVal{ -1 }, lastYVal{ -1 }
 	{
 	}
 
 	void update();
+	void updateRotation(float x, float y);
+private:
+
+	float lastXVal;
+	float lastYVal;
 
 };
 

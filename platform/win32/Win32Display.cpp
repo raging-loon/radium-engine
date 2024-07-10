@@ -19,6 +19,12 @@ LRESULT Win32Display::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 	case WM_SIZE:
 		PostMessage(hWnd, RWM_SIZING, wParam, lParam);
 		return 0;
+	//
+	case WM_SETCURSOR:
+		if (LOWORD(lParam) == HTCLIENT)
+			SetCursor(NULL);
+		return 0;
+
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
@@ -29,6 +35,11 @@ Win32Display::Win32Display()
 	: m_hInstance(nullptr), m_hwnd(nullptr), m_closeCB(nullptr), m_resizeCB(nullptr)
 {
 	memset(&m_winfo, 0, sizeof(WNDCLASSEX));
+}
+
+Win32Display::~Win32Display()
+{
+	destroy();
 }
 
 int Win32Display::create(int w, int h, bool windowed, const char* title)
@@ -70,6 +81,8 @@ int Win32Display::create(int w, int h, bool windowed, const char* title)
 		RAD_ENGINE_CRITICAL("Failed to create window");
 		return -1;
 	}
+	UpdateWindow(m_hwnd);
+	ClipCursor(NULL);
 
 	return 0;
 }
@@ -83,12 +96,14 @@ void Win32Display::destroy()
 	if (m_glCtx)
 		wglDeleteContext(m_glCtx);
 #endif // RAD_API_OPENGL
+
 }
 
 void Win32Display::show()
 {
 	assert(m_hwnd);
 	ShowWindow(m_hwnd, SW_SHOW);
+	UpdateWindow(m_hwnd);
 }
 
 
@@ -112,8 +127,8 @@ void Win32Display::processEvents()
 			
 			// Window Resize
 			case RWM_SIZING:
-			
 			{
+				if(m_resizeCB)
 				{
 					auto nw = LOWORD(msg.lParam);
 					auto nh = HIWORD(msg.lParam);
@@ -122,6 +137,15 @@ void Win32Display::processEvents()
 				break;
 			}
 
+			case WM_MOUSEMOVE:
+			{
+				if (m_mmvCB)
+				{
+					MouseMoveEvent m(LOWORD(msg.lParam), HIWORD(msg.lParam));
+					m_mmvCB(&m);
+				}
+				break;
+			}
 
 			default:
 				TranslateMessage(&msg);

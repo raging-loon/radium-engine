@@ -15,38 +15,73 @@ namespace radium
  * Provides methods to get View and Projection matrices.
  * 
 **/
+
+
+constexpr float DEFAULT_CAMERA_SENSITIVITY = 0.5;
+constexpr glm::vec3 DEFAULT_CAMERA_POSITION = {0,0,-5};
+constexpr float DEFAULT_CAMERA_NEAR = 0.1;
+constexpr float DEFAULT_CAMERA_FAR = 100.0f;
+constexpr float DEFAULT_CAMERA_FOV = 90.0f;
+
 class Camera
 {
 public:
 
-	Camera(float fov, float aspect, float near, float far)
-		: m_fov(glm::radians(fov)), m_aspect(aspect), m_near(near), m_far(far)
+	Camera(
+		float aspect,
+		glm::vec3 nposition = DEFAULT_CAMERA_POSITION,
+		float sensitivity = DEFAULT_CAMERA_SENSITIVITY,
+		float fov = DEFAULT_CAMERA_FOV,
+		float near = DEFAULT_CAMERA_NEAR,
+		float far = DEFAULT_CAMERA_NEAR
+	) 
+		: fov(glm::radians(fov)), aspect(aspect), near(near), far(far),
+		  yaw(0), pitch(0), sensitivity(DEFAULT_CAMERA_SENSITIVITY)
 	{
+
+	}
+
+
+	Camera(float fov, float aspect, float near, float far)
+		: fov(glm::radians(fov)), aspect(aspect), near(near), far(far),
+		  yaw(0), pitch(0), sensitivity(DEFAULT_CAMERA_SENSITIVITY)
+	{	
+		
 		updateProjectionMatrix(aspect);
 	}
 
-	glm::vec3 position{ 0,0,-5 };
+	Camera(float fov, float aspect, float near, float far, float nsensitivity)
+		:  Camera(fov, aspect, near, far)
+	{
+		sensitivity = nsensitivity;
+	}
+
 
 	glm::mat4x4 getViewMatrix();
 	glm::mat4x4 getProjectionMatrix();
 
 	void updateProjectionMatrix(float aspect);
 
-	/*float m_yaw = -90.0f;
-	float m_pitch = 0.0f;*/
+	glm::vec3 position{ 0,0,-5 };
 
-	float m_fov;
-	float m_aspect;
+	float fov;
+	float aspect;
 	
-	float m_near;
-	float m_far;
+	float near;
+	float far;
 
+	float yaw = 0.0f;
+	float pitch = 0.0f;
+
+	float sensitivity;
+
+protected:
 	glm::mat4x4 m_proj;
 
 
-	static const glm::vec3 kForward;
-	static const glm::vec3 kUp;
-	static const glm::vec3 kRight;
+	glm::vec3 kForward { 0.0f, 0.0f, 1.0f };
+	glm::vec3 kUp{ 0.0f,1.0f,0.0f };
+	glm::vec3 kRight{ 1.0f,0.0f,0.0f };
 
 
 };

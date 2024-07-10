@@ -21,7 +21,16 @@ public:
 	int newWidth;
 };
 
+struct MouseMoveEvent : IEvent
+{
+	MouseMoveEvent(float nx, float ny)
+		: x(nx), y(ny)
+	{
+	}
 
+	float x;
+	float y;
+};
 
 } // radium
 

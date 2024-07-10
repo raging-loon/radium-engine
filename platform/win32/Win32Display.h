@@ -17,7 +17,7 @@ class Win32Display : public IDisplay
 {
 public:
 	Win32Display();
-
+	~Win32Display() override;
 	int create(int w, int h, bool windowed, const char* title) override;
 	void destroy() override;
 
@@ -30,6 +30,7 @@ public:
 	void setWindowResizeCallback(WindowResizeCallback wrc) { m_resizeCB = wrc;  };
 
 	void setWindowCloseCallback(WindowCloseCallback wcc) { m_closeCB = wcc; };
+	void setMouseMoveCallback(MouseMoveCallback mmc) { m_mmvCB = mmc; };
 public:
 
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -41,6 +42,7 @@ private:
 
 	WindowCloseCallback m_closeCB;
 	WindowResizeCallback m_resizeCB;
+	MouseMoveCallback m_mmvCB;
 
 #ifdef RAD_API_OPENGL
 	HGLRC m_glCtx;

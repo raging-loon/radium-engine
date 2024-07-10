@@ -13,8 +13,8 @@ File::File(const char* path, const char* access)
 
 File::~File()
 {
-	if(fp && m_isOpen)
-		fclose(fp)
+	if (fp)
+		fclose(fp);
 }
 
 int File::open(const char* path, const char* access)

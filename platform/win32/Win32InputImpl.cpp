@@ -23,7 +23,7 @@ glm::vec2 getMousePosition()
 	POINT p;
 	
 	GetCursorPos(&p);
-
+	ScreenToClient(GetActiveWindow(), &p);
 	return { (float)p.x, (float)p.y };
 }
 
