@@ -70,15 +70,14 @@ size_t MeshExporter::interalProcess(const aiNode* cRoot)
 		
 		auto bytes = sm->process();
 
-		if (bytes == -1)
-		{
-			spdlog::info("Failed to process mesh");
+		if (bytes == -1) {
+			spdlog::error("Failed to process mesh: {}", m_meshScene->mMeshes[cRoot->mMeshes[i]]->mName);
 			delete sm;
 		}
-
-		m_subMeshes.push_back(sm);
-
-		total += bytes;
+		else {
+			m_subMeshes.push_back(sm);
+			total += bytes;
+		}
 	}
 
 	for (unsigned int i = 0; i < cRoot->mNumChildren; i++)
