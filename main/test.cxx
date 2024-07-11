@@ -3,6 +3,7 @@
 #include "drivers/opengl/oglRenderDriver.h"
 #include "drivers/opengl/oglShaderProgram.h"
 #include "drivers/opengl/oglTexture.h"
+#include "graphics/interface/Adapter.h"
 #include "graphics/interface/IRenderDriver.h"
 #include "graphics/interface/IBuffer.h"
 #include "graphics/interface/IDisplay.h"
@@ -40,7 +41,9 @@ int main(int argc, char** argv)
 
 	auto window = IDisplay::createDisplay();
 
-
+	AdapterList l;
+	l.detectAdapters();
+	l.detectDisplays();
 
 	window->setWindowResizeCallback(
 		[](WindowResizeEvent* w) -> void
