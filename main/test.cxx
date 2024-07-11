@@ -246,6 +246,7 @@ static Mesh* createMesh(const char* filename)
 
 	Mesh* testmesh = new Mesh;
 	filesystem::File testload(filename, "rb");
+	testload.open();
 	auto size = testload.size();
 	byte* buffer = new byte[size];
 	testload.read((char*)buffer, size);

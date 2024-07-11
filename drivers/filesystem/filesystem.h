@@ -10,9 +10,10 @@ class File
 public:
 
 	File(const char* path, const char* access);
-	~File();
+	virtual ~File();
 
 	virtual int open(const char* path, const char* access);
+	virtual int open();
 	virtual void close();
 
 	virtual inline bool isOpen() { return m_isOpen; }
@@ -22,9 +23,10 @@ public:
 	virtual int size();
 
 private:
-
 	FILE* fp;
 	bool m_isOpen;
+	const char* m_path;
+	const char* m_access;
 };
 
 

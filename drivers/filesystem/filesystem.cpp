@@ -6,9 +6,8 @@
 using radium::filesystem::File;
 
 File::File(const char* path, const char* access)
-	: fp(nullptr), m_isOpen(false)
+	: fp(nullptr), m_isOpen(false), m_path(path), m_access(access)
 {
-	open(path, access);
 }
 
 File::~File()
@@ -27,6 +26,24 @@ int File::open(const char* path, const char* access)
 	if (!fp)
 	{
 		RAD_ENGINE_ERROR("Failed to open file at {}", path);
+		return -1;
+	}
+
+	m_isOpen = true;
+	m_path = path;
+	m_access = access;
+	return 0;
+}
+int File::open()
+{
+	if (m_isOpen)
+		return -1;
+
+	fp = fopen(m_path, m_access);
+
+	if (!fp)
+	{
+		RAD_ENGINE_ERROR("Failed to open file at {}", m_path);
 		return -1;
 	}
 
