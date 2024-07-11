@@ -23,11 +23,11 @@ class SubMesh
 {
 public:
 
-	SubMesh(aiMesh* mesh);
+	explicit SubMesh(aiMesh* mesh);
 
 	size_t process();
 	
-	size_t serialize(std::string targetDirectory);
+	size_t serialize(const std::string& targetDirectory);
 
 private:
 

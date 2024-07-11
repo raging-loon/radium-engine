@@ -70,7 +70,7 @@ size_t MeshExporter::interalProcess(const aiNode* cRoot)
 		
 		auto bytes = sm->process();
 
-		if (bytes == -1) {
+		if ((int)bytes <= 0) {
 			spdlog::error("Failed to process mesh: {}", m_meshScene->mMeshes[cRoot->mMeshes[i]]->mName);
 			delete sm;
 		}

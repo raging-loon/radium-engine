@@ -75,7 +75,7 @@ size_t SubMesh::process()
 }
 
 
-size_t SubMesh::serialize(std::string targetDirectory)
+size_t SubMesh::serialize(const std::string& targetDirectory)
 {
 	size_t targetSize = sizeof(MeshHeader) + (m_idxList.size() * sizeof(uint32_t)) + (m_vtxList.size() * sizeof(VertexData));
 

@@ -28,7 +28,7 @@ class MeshExporter
 {
 public:
 
-	MeshExporter(std::string& filename);
+	explicit MeshExporter(std::string& filename);
 	~MeshExporter();
 	size_t process();
 

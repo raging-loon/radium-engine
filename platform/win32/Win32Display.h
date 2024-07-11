@@ -4,6 +4,7 @@
 #include <functional>
 #include "graphics/interface/IDisplay.h"
 #include "graphics/component/RenderDriverConfig.h"
+#include "graphics/interface/Adapter.h"
 #include <Windows.h>
 
 namespace radium::win32

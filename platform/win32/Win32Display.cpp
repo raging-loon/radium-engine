@@ -26,6 +26,8 @@ LRESULT Win32Display::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 		return 0;
 
 	default:
+		if(message != 257 && message != 256 && message != 132)
+			printf("%d\n", message);
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
 }
@@ -148,6 +150,7 @@ void Win32Display::processEvents()
 			}
 
 			default:
+
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 		}
