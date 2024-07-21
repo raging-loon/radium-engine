@@ -53,9 +53,8 @@ void DevCamera::updateRotation(float x, float y)
 	}
 	if (clamped)
 	{
-		POINT p{ x,y };
-		ClientToScreen(GetForegroundWindow(), &p);
-		SetCursorPos(p.x, p.y);
+		Input::setMousePosition({ x, y });
+
 		lastXVal = x;
 		lastYVal = y;
 		return;

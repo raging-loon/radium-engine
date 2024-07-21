@@ -63,6 +63,7 @@ int main(int argc, char** argv)
 		cfgmgr["windowed"],
 		"don't forget to add title config"
 	);
+	
 
 	auto driverConfig = window->createRenderDriverConfig();
 
@@ -160,6 +161,7 @@ int main(int argc, char** argv)
 	locMat2 = glm::rotate(locMat2, glm::radians(90.0f), glm::vec3(1, 0, 0));
 	locMat2 = glm::scale(locMat2, glm::vec3(0.1,0.1,0.1));
 	window->show();
+	Input::init();
 
 	mc = &mainCamera;
 	// mg.ms3d.m.001.mdl
